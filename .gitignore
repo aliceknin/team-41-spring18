@@ -5,6 +5,7 @@
 **/.metadata/
 **/RemoteSystemsTempFiles/
 **/.recommenders
+**/.sonarlint
 
 # Compiled class file
 *.class
