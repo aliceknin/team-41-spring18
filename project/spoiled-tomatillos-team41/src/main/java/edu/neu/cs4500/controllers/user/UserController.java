@@ -45,8 +45,9 @@ public class UserController {
 		return users;
 	}
 	
-	@RequestMapping("/api/user/{username}/password")
-	public boolean userExists(@PathVariable("username") String username) {
-		 return userRepository.userExists(username);
+	@RequestMapping("/api/user/verify/{username}")
+	public boolean verifyLogin(@PathVariable("username") String username) {
+		 List<User> users = userRepository.findByUsername(username);
+		 return users.size() != 0;
 	}
 }
