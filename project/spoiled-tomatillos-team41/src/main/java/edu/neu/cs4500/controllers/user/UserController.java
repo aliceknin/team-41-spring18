@@ -50,4 +50,16 @@ public class UserController {
 		 List<User> users = userRepository.findByUsername(username);
 		 return users.size() != 0;
 	}
+	
+	@RequestMapping("/api/user/info/{username}")
+	public User getUserInformation(@PathVariable("username") String username) {
+		 List<User> users = userRepository.findByUsername(username);
+		 return users.get(0);
+	}
+	
+	// Method for admin user only
+	public void deleteUser(@PathVariable("username") String username) {
+		User user = userRepository.findByUsername(username).get(0);
+		userRepository.delete(user);
+	}
 }
