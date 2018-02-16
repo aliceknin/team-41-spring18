@@ -14,13 +14,15 @@ public class User {
 	String username;
 	String password;
 	String email;
-	String type;
+	String fullName;
+	boolean admin;
 	
-	public User(String username, String password, String email, String type) {
+	public User(String username, String password, String email, String fullName, boolean admin) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.type = type;
+		this.fullName = fullName;
+		this.admin = admin;
 	}
 	
 	public User() {
@@ -58,12 +60,14 @@ public class User {
 	public void setEmail(String email ) {
 		this.email = email;
 	}
+
+	public String getFullName() { return fullName; }
+
+	public void setFullName(String fullName) { this.fullName = fullName; }
 	
-	public String getType() {
-		return type;
-	}
+	public boolean getAdmin() { return admin; }
 	
-	public void setType(String type) {
-		this.type = type;
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 }
