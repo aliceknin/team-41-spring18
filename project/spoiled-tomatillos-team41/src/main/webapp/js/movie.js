@@ -11,6 +11,12 @@ $(function() {
     function render(result) {
         console.log(result);
         $('#title').text(result.Title);
+        $('#year').text(result.Year);
+        $('#genre').text(result.Genre);
+        $('#rated').text(result.Rated);
+        $('#director').text(result.Director);
+        $('#actors').text(result.Actors);
+        $('#imdbRating').text(result.imdbRating);
     }
 
 });
