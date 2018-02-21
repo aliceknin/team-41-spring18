@@ -11,9 +11,18 @@ $(function() {
         // TODO: search for users by query
     });
 
-    // Populate dropdown with top movie results
+    // Populate dropdown with top 5 movie results
     function renderMovies(result) {
-        console.log(result);
+        var movies = result.Search;
+        var length = movies.length < 5 ? movies.length : 5;
+        for (var i = 0; i < length; i++) {
+            console.log(i);
+            var movieResult = $('<a>', {
+                text: movies[i].Title + ' (' + movies[i].Year + ')',
+                href: 'movie.html?id=' + movies[i].imdbID
+            });
+            $('#searchResult' + i).html(movieResult);
+        }
     }
 
 });
