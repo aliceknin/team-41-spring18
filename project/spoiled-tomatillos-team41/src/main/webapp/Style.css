@@ -6,3 +6,16 @@ p {
 h1 {
 	font-family: 'Raleway', sans-serif;
 }
+
+.container {
+    margin-top: 50px;
+}
+
+h3 {
+    display: inline;
+}
+
+.row {
+    margin-left: 5px;
+    padding-top: 20px;
+}
