@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Create New User</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Spoiled Tomatillos</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,15 +13,14 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="Style.css">
-
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+<link rel="stylesheet" type="text/css" href="Style.css?2">
+    
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous">
     </script>
-<script src="js/search.js"></script>
-<script src="js/createUser.js"></script>
-
+    <script src="js/search.js"></script>
+    <script src="js/movie.js?2"></script>
 </head>
 <body>
 
@@ -31,7 +30,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
       </button>
       <a class="navbar-brand" href="index.html">Spoiled Tomatillos</a>
     </div>
@@ -61,40 +60,20 @@
 </nav>
 
 <div class="container">
-
-<form class="form-horizontal" action="accountCreated.html" style="padding:40px">
-<h2>Create a new user</h2>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Username:</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="username" placeholder="Enter username">
+    <h1>Movie</h1>
+    <h2 id="title"></h2>
+    <h3>Year: </h3>
+    <h4 id="year"></h4>
+    <h3>Genre: </h3>
+    <h4 id="genre"></h4>
+    <h3>Rated: </h3>
+    <h4 id="rated"></h4>
+    <h3>Director: </h3>
+    <h4 id="director"></h4>
+    <h3>Actors: </h3>
+    <h4 id="actors"></h4>
+    <h3>IMDB Rating: </h3>
+    <h4 id="imdbRating"></h4>
     </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="pwd">Password:</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Full name:</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="fullname" placeholder="Enter full name">
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Email:</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="email" placeholder="Enter email">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" onclick="createUser()">Submit</button>
-    </div>
-  </div>
-</form>
-</div>
-
 </body>
 </html>
