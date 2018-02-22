@@ -19,9 +19,24 @@ pipeline {
         sh 'mvn test -f project/spoiled-tomatillos-team41/pom.xml'
       }
     }
-    stage('Deploy') {
+    stage('SonarQube') {
       steps {
-        echo "Deploy"
+        withSonarQubeEnv('SonarQube') {
+          sh 'mvn clean install -f project/spoiled-tomatillos-team41/pom.xml'
+          sh 'mvn sonar:sonar -f project/spoiled-tomatillos-team41/pom.xml'
+        }
+      }
+    }
+    stage('Quality') {
+      steps {
+        script {
+          timeout (time:1, unit :'HOURS') {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+              error "Pipeline aborted due to quality gate failure: $(qg.status)"
+            }
+          }
+        }
       }
     }
   }
