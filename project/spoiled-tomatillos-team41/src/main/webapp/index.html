@@ -14,7 +14,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="Style.css">
+<link rel="stylesheet" type="text/css" href="css/Style.css">
+<link rel="stylesheet" type="text/css" href="css/homepage.css">
 
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -62,13 +63,37 @@
 </nav>
 
 <div class="jumbotron">
-<h1>Welcome to Spoiled Tomatillos!</h1>
+  <div id="home-carousel" class="carousel fade">
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+      <li data-target="home-carousel" data-slide-to="0" class="active"></li>
+      <li data-target="home-carousel" data-slide-to="1"></li>
+    </ol>
+    <!--Slideshow Elements-->
+    <div class="carousel-inner">
+      <div class="item active carousel-1">
+        <div class="carousel-caption">
+          <h1>Spoiled Tomatillos</h1>
+        </div>
+      </div>
+      <div class="item carousel-2">
+        <div class="carousel-caption">
+          <h1>Spoiled Tomatillos</h1>
+        </div>
+      </div>
+    </div>
+    <!--Scroll through the elements-->
+    <a class="left carousel-control" href="#home-carousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#home-carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  </div>
 </div>
 
 <div class="container">
 
 
 </div>
+
+<script src="js/homepage.js"></script>
 
 </body>
 </html>
