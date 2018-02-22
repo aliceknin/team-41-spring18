@@ -31,7 +31,7 @@ public class UserController {
 	// Creates an end user based on their username, password, email, fullname
 	// This does not create an admin user, just a basic end user
 	@RequestMapping("/api/user/create/{username}/{pw}/{email}/{fullName}")
-	public ResponseEntity<Object> createEndUser(@PathVariable("username") String username, @PathVariable("pw") String pw,
+	public User/*ResponseEntity<Object> */createEndUser(@PathVariable("username") String username, @PathVariable("pw") String pw,
 						   @PathVariable("email") String email, @PathVariable("fullName") String fullName)
 							throws URISyntaxException {
 
@@ -43,10 +43,10 @@ public class UserController {
 			User user = new User(username, pw, email, fullName, false);
 			userRepository.save(user);
 
-			URI uri = new URI("http://localhost:8080/accountCreated.html");
-			HttpHeaders httpHeaders = new HttpHeaders();
-			httpHeaders.setLocation(uri);
-			return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+			//URI uri = new URI("http://localhost:8080/accountCreated.html");
+			//HttpHeaders httpHeaders = new HttpHeaders();
+			//httpHeaders.setLocation(uri);
+			return user;//new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
 		}
 	}
