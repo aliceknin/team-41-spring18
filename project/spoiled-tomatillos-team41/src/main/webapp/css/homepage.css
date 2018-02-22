@@ -1,0 +1,41 @@
+.carousel.fade {
+  opacity: 1;
+}
+.carousel.fade .item {
+  transition: opacity ease-out .7s;
+  left: 0;
+  opacity: 0; /* hide all slides */
+  top: 0;
+  position: absolute;
+  width: 100%;
+  display: block;
+}
+.carousel.fade .item:first-child {
+  top: auto;
+  opacity: 1; /* show first slide */
+  position: relative;
+}
+.carousel.fade .item.active {
+  opacity: 1;
+}
+
+.carousel {
+  height: 500px;
+}
+.carousel-inner {
+  height: 100%;
+}
+
+.carousel-1 {
+  height: 100%;
+  background: crimson;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.carousel-2 {
+  height: 100%;
+  background: blanchedalmond;
+  -webkit-background-size: cover;
+  background-size: cover;
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Spoiled Tomatillos</title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Latest compiled and minified CSS -->
@@ -13,14 +13,14 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="Style.css">
-    
+<link rel="stylesheet" type="text/css" href="css/Style.css">
+<link rel="stylesheet" type="text/css" href="css/recommendedCarousel.css">
+
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous">
     </script>
-    <script src="js/search.js"></script>
-    <script src="js/explore.js"></script>
+
 </head>
 <body>
 
@@ -30,7 +30,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="index.html">Spoiled Tomatillos</a>
     </div>
@@ -48,7 +48,7 @@
             <li class="dropdown-item" id="searchResult3"></li>
             <li class="dropdown-item" id="searchResult4"></li>
           </ul>
-         </div>
+        </div>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="explore.html"><span class="glyphicon glyphicon-search"></span> Explore</a></li>
@@ -60,8 +60,97 @@
 </nav>
 
 <div class="container">
-    <h1 style="padding-top:40px">Explore</h1>
-    <input type="text" class="form-control" placeholder="Search" id="exploreInput"><button class="btn btn-default" id="explore">Search</button>
+  <h1 style="padding-top:40px">Explore</h1>
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="Search" id="exploreInput">
+    <div class="input-group-btn">
+      <button class="btn btn-default" id="explore"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
+  </div>
 </div>
+
+
+<div class="container-fluid">
+  <h1 class="text-center mb-3">Recommended Movies</h1>
+  <div id="recommendedCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner row w-100 mx-auto">
+      <div class="carousel-item col-md-2 active">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/f44242/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item col-md-2">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/418cf4/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item col-md-2">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/3ed846/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item col-md-2">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/42ebf4/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item col-md-2">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/f49b41/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item col-md-2">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/f4f141/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item col-md-2">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://placehold.it/200x300/8e41f4/fff" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Title of Movie</h4>
+            <p class="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#recommendedCarousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#recommendedCarousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<script src="js/search.js"></script>
+<script src="js/explore.js"></script>
+
 </body>
 </html>
