@@ -16,7 +16,5 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        this.reviewRepository.save(
-                new Review("tt0387564", 5, "Very good movie", "nicolepristin"));
     }
 }

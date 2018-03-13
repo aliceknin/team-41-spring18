@@ -157,6 +157,7 @@
             $.ajax({
               url: "http://localhost:8080/api/review/select/all"
             }).then(function (data) {
+            console.log(data);
               self.setState({reviews: data._embedded.reviews});
             });
           },
