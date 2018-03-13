@@ -18,6 +18,10 @@ public class Friend {
         this.friendId = friendId;
     }
 
+    public Friend() {
+        
+    }
+
     public int getUserId() {
         return userId;
     }
