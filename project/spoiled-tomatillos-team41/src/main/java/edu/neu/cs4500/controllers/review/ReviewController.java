@@ -41,4 +41,11 @@ public class ReviewController {
         List<Review> reviews = reviewRepository.findByImdbID(imdbID);
         return reviews;
     }
+
+    // Deletes a review from a movie page
+    @RequestMapping("/api/review/delete/{review_id}")
+    public void deleteReview(@PathVariable("review_id") int id) {
+        Review review = reviewRepository.findById(id);
+        reviewRepository.delete(review);
+    }
 }
