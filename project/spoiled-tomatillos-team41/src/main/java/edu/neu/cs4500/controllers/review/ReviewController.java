@@ -1,6 +1,9 @@
 package edu.neu.cs4500.controllers.review;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,8 +47,13 @@ public class ReviewController {
 
     // Deletes a review from a movie page
     @RequestMapping("/api/review/delete/{review_id}")
-    public void deleteReview(@PathVariable("review_id") int id) {
-        Review review = reviewRepository.findById(id);
-        reviewRepository.delete(review);
+    public ResponseEntity<Review> deleteReview(@PathVariable("review_id") int id) {
+        try {
+            Review review = reviewRepository.findById(id);
+            reviewRepository.delete(review);
+            return ResponseEntity.ok(review);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

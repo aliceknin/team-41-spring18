@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Spoiled Tomatillos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -87,5 +88,93 @@
         <h3 id="imdbRating"></h3>
     </div>
 </div>
+
+<h1 class ='container'> Reviews </h1>
+
+<div id='root' class='container'></div>
+
+    <script type="text/babel">
+        var Review = React.createClass({
+            getInitialState: function() {
+              return {display: true };
+            },
+            handleDelete() {
+                var self = this;
+                var reviewId = this.props.review.id;
+                $.ajax({
+                    url: "http://localhost:8080/api/review/delete/" + reviewId,
+                    type: 'DELETE',
+                    success: function(result) {
+                        self.setState({display: false});
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.responseJSON.message);
+                    }
+                });
+            },
+            render: function() {
+                if (this.state.display==false) return null;
+                else return (
+                  <tr>
+                    <td>{this.props.review.username}</td>
+                    <td>{this.props.review.rating}</td>
+                    <td>{this.props.review.comment}</td>
+                    <td>
+                        <button className="btn btn-info" onClick={this.handleDelete}>Delete</button>
+                    </td>
+                  </tr>);
+            }
+        });
+        var ReviewTable = React.createClass({
+            render: function() {
+                var rows = [];
+                this.props.reviews.forEach(function(review) {
+                    rows.push(<Review review={review} />);
+                });
+                return (
+                  <table className='table table-striped'>
+                    <thead>
+                      <tr>
+                        <th>Username</th><th>Rating</th><th>Comment</th>
+                      </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                  </table>);
+            }
+        });
+        var REVIEWS = [
+          {username: 'nicolepristin', rating: 5, comment: 'Very good movie'},
+          {username: 'npristin', rating: 2, comment: 'This movie was very bad'},
+        ];
+        var App = React.createClass({
+          getInitialState: function () {
+            return {reviews: []};
+          },
+          componentDidMount: function () {
+            this.loadReviewsFromServer();
+          },
+          loadReviewsFromServer: function () {
+            var self = this;
+            $.ajax({
+              url: "http://localhost:8080/api/review/select/all"
+            }).then(function (data) {
+            console.log(data);
+              self.setState({reviews: data});
+            });
+          },
+          render() {
+            return ( <ReviewTable reviews={this.state.reviews}/> );
+          }
+        });
+        ReactDOM.render(
+            <App/>, document.getElementById('root')
+        );
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://fb.me/react-15.0.1.js"></script>
+<script src="https://fb.me/react-dom-15.0.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script type="text/babel"></script>
 </body>
 </html>
