@@ -100,8 +100,9 @@
             },
             handleDelete() {
                 var self = this;
+                var reviewId = this.props.review.id;
                 $.ajax({
-                    url: self.props.review._links.self.href,
+                    url: "http://localhost:8080/api/review/delete/" + reviewId,
                     type: 'DELETE',
                     success: function(result) {
                         self.setState({display: false});
