@@ -1,7 +1,5 @@
-package edu.neu.cs4500;
+package edu.neu.cs4500.controllers.review;
 
-import edu.neu.cs4500.controllers.review.Review;
-import edu.neu.cs4500.controllers.review.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +17,6 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         this.reviewRepository.save(
-                new Review("tt0083658", 5, "Very good movie", "nicolepristin"));
+                new Review("tt0387564", 5, "Very good movie", "nicolepristin"));
     }
 }
