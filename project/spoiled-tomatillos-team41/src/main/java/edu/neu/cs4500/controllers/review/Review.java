@@ -15,8 +15,9 @@ public class Review {
     private int rating;
     private String comment;
     private String username;
+    private int upvotes;
 
-    public Review(String imdbID, int rating, String comment, String username) throws InstantiationException {
+    public Review(String imdbID, int rating, String comment, String username, int upvotes) throws InstantiationException {
         if (rating < 0 || rating > 10) {
             throw new InstantiationException("Rating for review must be in the range 0-10.");
         }
@@ -24,6 +25,7 @@ public class Review {
         this.rating = rating;
         this.comment = comment;
         this.username = username;
+        this.upvotes = upvotes;
     }
 
     public Review() {
@@ -69,4 +71,8 @@ public class Review {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public int getUpvotes() { return upvotes; }
+
+    public void setUpvotes(int upvotes) { this.upvotes = upvotes; }
 }
