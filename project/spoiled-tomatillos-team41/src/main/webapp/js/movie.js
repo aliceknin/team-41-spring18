@@ -51,7 +51,7 @@ var Review = React.createClass({
                 url: "http://localhost:8080/api/review/upvote/" + reviewId,
                 type: 'PUT',
                 success: function(result) {
-                    // nothing for now
+                    console.log("upvote added");
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.responseJSON.message);

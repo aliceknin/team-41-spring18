@@ -62,8 +62,8 @@ public class ReviewController {
     public ResponseEntity<Review> upvoteReview(@PathVariable("review_id") int id) {
         try {
             Review review = reviewRepository.findById(id);
-            reviewRepository.save(review);
             review.setUpvotes(review.getUpvotes() + 1);
+            reviewRepository.save(review);
             return ResponseEntity.ok(review);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
