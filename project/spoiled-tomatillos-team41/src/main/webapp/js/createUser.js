@@ -5,7 +5,6 @@ function createUser() {
   var fullName = $('#fullname').val();
   var email = $('#email').val();
 
-  console.log("info grabbed for user");
   if (username && password && fullName && email) {
     $.ajax({
       //swap to window.location.hostname when done
