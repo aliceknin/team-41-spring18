@@ -30,7 +30,7 @@ public class ReviewController {
     public Review addReview(@PathVariable("imdbID") String imdbID, @PathVariable("rating") int rating,
                             @PathVariable("review") String review, @PathVariable("username") String username) {
         try {
-            Review newReview = new Review(imdbID, rating, review, username);
+            Review newReview = new Review(imdbID, rating, review, username, 0);
             reviewRepository.save(newReview);
             return newReview;
         } catch (Exception e) {
@@ -51,6 +51,19 @@ public class ReviewController {
         try {
             Review review = reviewRepository.findById(id);
             reviewRepository.delete(review);
+            return ResponseEntity.ok(review);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    // Upvotes a review from a movie page
+    @RequestMapping("/api/review/upvote/{review_id}")
+    public ResponseEntity<Review> upvoteReview(@PathVariable("review_id") int id) {
+        try {
+            Review review = reviewRepository.findById(id);
+            review.setUpvotes(review.getUpvotes() + 1);
+            reviewRepository.save(review);
             return ResponseEntity.ok(review);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

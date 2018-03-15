@@ -44,6 +44,20 @@ var Review = React.createClass({
             }
         });
     },
+    handleUpvote() {
+            var self = this;
+            var reviewId = this.props.review.id;
+            $.ajax({
+                url: "http://localhost:8080/api/review/upvote/" + reviewId,
+                type: 'PUT',
+                success: function(result) {
+                    console.log("upvote added");
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+     },
     render: function() {
         if (this.state.display==false) return null;
         else return (
@@ -51,8 +65,12 @@ var Review = React.createClass({
             <td>{this.props.review.username}</td>
             <td>{this.props.review.rating}</td>
             <td>{this.props.review.comment}</td>
+            <td>{this.props.review.upvotes}</td>
             <td>
                 <button className="btn btn-info" onClick={this.handleDelete}>Delete</button>
+            </td>
+            <td>
+                <button className="btn btn-info" onClick={this.handleUpvote}>Upvote</button>
             </td>
           </tr>);
     }
