@@ -164,7 +164,10 @@ var Movie = React.createClass({
 
 var Review = React.createClass({
     getInitialState: function() {
-      return {display: true };
+      return {
+        display: true,
+        upvotes: this.props.review.upvotes
+      };
     },
     handleDelete() {
         var self = this;
@@ -187,7 +190,7 @@ var Review = React.createClass({
                 url: hostUrl + "/api/review/upvote/" + reviewId,
                 type: 'PUT',
                 success: function(result) {
-                    console.log("upvote added");
+                    self.setState({upvotes: result.upvotes })
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.responseJSON.message);
@@ -201,7 +204,7 @@ var Review = React.createClass({
             <td>{this.props.review.username}</td>
             <td>{this.props.review.rating}</td>
             <td>{this.props.review.comment}</td>
-            <td>{this.props.review.upvotes}</td>
+            <td>{this.state.upvotes}</td>
             <td>
                 <button className="btn btn-info" onClick={this.handleDelete}>Delete</button>
             </td>
