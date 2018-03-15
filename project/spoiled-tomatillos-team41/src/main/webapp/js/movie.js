@@ -34,7 +34,7 @@ var Review = React.createClass({
         var self = this;
         var reviewId = this.props.review.id;
         $.ajax({
-            url: "http://localhost:8080/api/review/delete/" + reviewId,
+            url: "http://ec2-13-58-155-176.us-east-2.compute.amazonaws.com:8080/api/review/delete/" + reviewId,
             type: 'DELETE',
             success: function(result) {
                 self.setState({display: false});
@@ -48,7 +48,7 @@ var Review = React.createClass({
             var self = this;
             var reviewId = this.props.review.id;
             $.ajax({
-                url: "http://localhost:8080/api/review/upvote/" + reviewId,
+                url: "http://ec2-13-58-155-176.us-east-2.compute.amazonaws.com:8080/api/review/upvote/" + reviewId,
                 type: 'PUT',
                 success: function(result) {
                     console.log("upvote added");
@@ -130,7 +130,7 @@ var App = React.createClass({
   loadReviewsFromServer: function (id) {
     var self = this;
     $.ajax({
-        url: "http://localhost:8080/api/review/select/" + id
+        url: "http://ec2-13-58-155-176.us-east-2.compute.amazonaws.com:8080/api/review/select/" + id
     }).then(function (data) {
         self.setState({reviews: data});
     });
