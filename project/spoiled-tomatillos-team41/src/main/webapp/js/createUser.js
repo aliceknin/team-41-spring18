@@ -1,6 +1,3 @@
-/*var hostUrl = "http://ec2-13-58-155-176.us-east-2.compute.amazonaws.com:8080";*/
-var hostUrl = "http://localhost:8080";
-
 function createUser() {
 
   var username = $('#username').val();

@@ -1,5 +1,5 @@
-/*var hostUrl = "http://ec2-13-58-155-176.us-east-2.compute.amazonaws.com:8080";*/
-var hostUrl = "http://localhost:8080";
+var hostUrl = 'http://' + window.location.hostname + ':8080';
+var lastRatingIndex;
 
 var Star = React.createClass({
   render: function() {
@@ -18,7 +18,17 @@ var Star = React.createClass({
 
 var StarRating = React.createClass({
   getInitialState: function(props) {
-    return  {stars : Array(10).fill(false)};
+    var stars = Array(10);
+    var fixed = false;
+    if (this.props.rating) {
+      for (var i = 0; i < stars.length; i++) {
+        stars[i] = (i <= this.props.rating);
+      }
+      fixed = true;
+    } else {
+      stars.fill(false);
+    }
+    return  {stars : stars, fixedStars : stars, fixed : fixed};
   },
 
   setFillOfAllStarsUpTo: function(i, fill) {
@@ -40,15 +50,24 @@ var StarRating = React.createClass({
   },
 
   handleMouseOver(i) {
-    this.setFillOfAllStarsUpTo(i, true);
+    if (!this.state.fixed) {
+      this.setFillOfAllStarsUpTo(i, true);
+    }
   },
 
   handleMouseOut(i) {
-    this.setFillOfAllStarsUpTo(i, false);
+    if (!this.state.fixed) {
+      this.setFillOfAllStarsUpTo(i, false);
+    } else {
+      this.setState({stars :  this.state.fixedStars});
+    }
   },
 
   handleClick(i) {
     // TODO: check if user is logged in
+    lastRatingIndex = i;
+    this.setState({fixed : true});
+    this.setState({fixedStars : this.state.stars});
     this.props.modalHandler.handleShowModal();
   },
 
@@ -102,7 +121,7 @@ var ReviewModal = React.createClass({
               <h4 className="modal-title">Write your review: </h4>
             </div>
             <div className="modal-body">
-              <StarRating />
+              <StarRating rating={lastRatingIndex} modalHandler={this.props.modalHandler}/>
               <form>
                 <div className="form-group">
                   <label for="review-text" className="control-label">Write your review:</label>
@@ -130,12 +149,13 @@ var Movie = React.createClass({
             </div>
             <div className="col-md-8">
               <h2>{this.props.data.Title}<small> ({this.props.data.Year})</small></h2>
+              <h4>Your rating: </h4>
               <StarRating rating={this.props.data.imdbRating} modalHandler={this.props.modalHandler}/><span>({this.props.data.imdbRating} on IMDB)</span>
               <h4>{this.props.data.Genre}</h4>
               <h4>{this.props.data.Rated}</h4>
               <h4>Directed by {this.props.data.Director}</h4>
               <h4>Starring {this.props.data.Actors}</h4>
-              <h4>{this.props.data.imdbRating}</h4>
+              <h4>IMDB rating: {this.props.data.imdbRating}</h4>
             </div>
           </div>
         );
@@ -268,8 +288,9 @@ var App = React.createClass({
       },
       handleSubmit : function () {
         var review = $('#review-text').val();
+        var lastRating = lastRatingIndex + 1;
         $.ajax({
-          url: hostUrl + "/api/review/add/" + self.state.imdbID +"/" + 5 + "/" + review + "/testUser"
+          url: hostUrl + "/api/review/add/" + self.state.imdbID +"/" + lastRating + "/" + review + "/testUser"
         }).then(function (data) {
           console.log(self.state.reviews);
           var updatedReviews = self.state.reviews.slice();
