@@ -86,7 +86,7 @@ var ReviewTable = React.createClass({
             <table className='table table-striped'>
               <thead>
                 <tr>
-                  <th>Username</th><th>Rating</th><th>Comment</th>
+                  <th>Username</th><th>Rating</th><th>Comment</th><th>Upvotes</th>
                 </tr>
               </thead>
               <tbody>{rows}</tbody>
