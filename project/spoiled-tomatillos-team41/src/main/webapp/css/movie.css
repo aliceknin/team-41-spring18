@@ -1,0 +1,8 @@
+.starRating {
+  display: inline-block;
+}
+
+.star {
+  background-color: transparent;
+  border: none;
+}
