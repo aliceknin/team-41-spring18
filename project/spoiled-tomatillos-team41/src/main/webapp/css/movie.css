@@ -6,3 +6,8 @@
   background-color: transparent;
   border: none;
 }
+
+.label {
+  padding-right: .3em;
+  color: grey;
+}
