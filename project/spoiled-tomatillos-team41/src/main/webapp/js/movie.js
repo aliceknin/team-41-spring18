@@ -151,11 +151,11 @@ var Movie = React.createClass({
               <h2>{this.props.data.Title}<small> ({this.props.data.Year})</small></h2>
               <h4>Your rating: </h4>
               <StarRating rating={this.props.data.imdbRating} modalHandler={this.props.modalHandler}/><span>({this.props.data.imdbRating} on IMDB)</span>
-              <h4>{this.props.data.Genre}</h4>
-              <h4>{this.props.data.Rated}</h4>
-              <h4>Directed by {this.props.data.Director}</h4>
-              <h4>Starring {this.props.data.Actors}</h4>
-              <h4>IMDB rating: {this.props.data.imdbRating}</h4>
+              <h4><span className="label">Genre: </span>{this.props.data.Genre}</h4>
+              <h4><span className="label">Rated: </span>{this.props.data.Rated}</h4>
+              <h4><span className="label">Directed by: </span>{this.props.data.Director}</h4>
+              <h4><span className="label">Starring: </span>{this.props.data.Actors}</h4>
+              <h4><span className="label">IMDB rating: </span>{this.props.data.imdbRating}</h4>
             </div>
           </div>
         );
