@@ -184,7 +184,7 @@ var Review = React.createClass({
             var self = this;
             var reviewId = this.props.review.id;
             $.ajax({
-                url: "http://ec2-13-58-155-176.us-east-2.compute.amazonaws.com:8080/api/review/upvote/" + reviewId,
+                url: hostUrl + "/api/review/upvote/" + reviewId,
                 type: 'PUT',
                 success: function(result) {
                     console.log("upvote added");
