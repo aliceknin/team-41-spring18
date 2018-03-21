@@ -27,6 +27,12 @@ var NavBar = React.createClass({
       self.setState({ searchResults: results });
     });
   },
+  handleKeyPress: function(evt) {
+    if (evt.key === 'Enter') {
+      this.search();
+      $('.dropdown-toggle').dropdown('toggle');
+    }
+  },
   render: function() {
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -43,9 +49,11 @@ var NavBar = React.createClass({
             <div className="navbar-form navbar-left">
               <div className="dropdown">
                 <div className="form-group">
-                  <input type="text" className="form-control" placeholder="Search" value={this.state.searchInput} onChange={this.updateSearchInput} />
+                  <input type="text" className="form-control" placeholder="Search"
+                      value={this.state.searchInput} onChange={this.updateSearchInput}
+                      onKeyPress={this.handleKeyPress} />
                 </div>
-                <button className="btn btn-default" data-toggle="dropdown" id="search" onClick={this.search}>Submit</button>
+                <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}>Submit</button>
                 <ul className="dropdown-menu">
                   {this.state.searchResults.map(function(result, index) {
                     return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
