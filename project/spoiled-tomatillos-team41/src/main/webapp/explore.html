@@ -16,48 +16,14 @@
 <link rel="stylesheet" type="text/css" href="css/Style.css">
 <link rel="stylesheet" type="text/css" href="css/recommendedCarousel.css">
 
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous">
-    </script>
-
+<script src="https://fb.me/react-15.0.1.js"></script>
+<script src="https://fb.me/react-dom-15.0.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 </head>
-<body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Spoiled Tomatillos</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <div class="navbar-form navbar-left">
-        <div class="dropdown">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" id="searchInput">
-          </div>
-          <button class="btn btn-default" data-toggle="dropdown" id="search">Submit</button>
-          <ul class="dropdown-menu">
-            <li class="dropdown-item" id="searchResult0"></li>
-            <li class="dropdown-item" id="searchResult1"></li>
-            <li class="dropdown-item" id="searchResult2"></li>
-            <li class="dropdown-item" id="searchResult3"></li>
-            <li class="dropdown-item" id="searchResult4"></li>
-          </ul>
-        </div>
-      </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="explore.html"><span class="glyphicon glyphicon-search"></span> Explore</a></li>
-        <li><a href="createUser.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<body>
+  <div id='navbar'></div>
+  <script type="text/babel" src="js/navbar.js"></script>
 
 <div class="container">
   <h1 style="padding-top:40px">Explore</h1>
@@ -149,7 +115,6 @@
   </div>
 </div>
 
-<script src="js/search.js"></script>
 <script src="js/explore.js"></script>
 
 </body>
