@@ -15,86 +15,18 @@
 
 <link rel="stylesheet" type="text/css" href="css/Style.css">
 
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous">
-    </script>
-<script src="js/search.js"></script>
 <script src="js/createUser.js"></script>
 
+<script src="https://fb.me/react-15.0.1.js"></script>
+<script src="https://fb.me/react-dom-15.0.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 </head>
+
 <body>
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Spoiled Tomatillos</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <div class="navbar-form navbar-left">
-        <div class="dropdown">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" id="searchInput">
-          </div>
-          <button class="btn btn-default" data-toggle="dropdown" id="search">Submit</button>
-          <ul class="dropdown-menu">
-            <li class="dropdown-item" id="searchResult0"></li>
-            <li class="dropdown-item" id="searchResult1"></li>
-            <li class="dropdown-item" id="searchResult2"></li>
-            <li class="dropdown-item" id="searchResult3"></li>
-            <li class="dropdown-item" id="searchResult4"></li>
-          </ul>
-        </div>
-      </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="explore.html"><span class="glyphicon glyphicon-search"></span> Explore</a></li>
-        <li><a href="createUser.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-
-<form class="form-horizontal" action="accountCreated.html" style="padding:40px">
-<h2>Create a new user</h2>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Username:</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="username" placeholder="Enter username">
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="pwd">Password:</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Full name:</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="fullname" placeholder="Enter full name">
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Email:</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="email" placeholder="Enter email">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" onclick="createUser()">Submit</button>
-    </div>
-  </div>
-</form>
-</div>
+  <div id='navbar'></div>
+  <script type="text/babel" src="js/navbar.js"></script>
+  <div id="createUser"></div>
+  <script type="text/babel" src="js/createUser.js"></script>
 
 </body>
 </html>
