@@ -2,7 +2,8 @@ var NavBar = React.createClass({
   getInitialState: function() {
     return {
       searchInput: '',
-      searchResults: []
+      searchResults: [],
+      user: localStorage.getItem('user')
     };
   },
   updateSearchInput: function(evt) {
@@ -63,8 +64,16 @@ var NavBar = React.createClass({
             </div>
             <ul className="nav navbar-nav navbar-right">
               <li><a href="explore.html"><span className="glyphicon glyphicon-search" /> Explore</a></li>
-              <li><a href="createUser.html"><span className="glyphicon glyphicon-user" /> Sign Up</a></li>
-              <li><a href="#"><span className="glyphicon glyphicon-log-in" /> Login</a></li>
+              {
+                this.state.user ? (
+                  <li><a href="#"><span className="glyphicon glyphicon-user" /> {this.state.user}</a></li>
+                ) : (
+                  [
+                    <li key='0'><a href="createUser.html"><span className="glyphicon glyphicon-user" /> Sign Up</a></li>,
+                    <li key='1'><a href="#"><span className="glyphicon glyphicon-log-in" /> Login</a></li>
+                  ]
+                )
+              }
             </ul>
           </div>
         </div>
