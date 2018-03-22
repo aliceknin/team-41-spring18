@@ -28,11 +28,13 @@ var CreateUser = React.createClass({
     });
   },
   createUser: function() {
+    self = this;
     if (this.state.username && this.state.password && this.state.fullname && this.state.email) {
       $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/create/' + this.state.username + '/'
           + this.state.password + '/' + this.state.email + '/' + this.state.fullname
       }).done(function(result) {
+        localStorage.setItem('user', self.state.username);
         window.location.replace('http://' + window.location.hostname + ':8080/accountCreated.html');
       }).fail(function(reuslt) {
         // TODO: show error message since user creation wasn't successful
