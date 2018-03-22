@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -82,5 +81,30 @@ public class UserTest {
 
         userController.createEndUser(userNicole.getUsername(), userNicole.getPassword(),
                 userNicole.getEmail(), userNicole.getFullName());
+    }
+
+    @Test
+    public void verifyLoginSuccessTest() {
+        User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
+                "Nicole Pristin", false);
+        List<User> userResponse = new ArrayList<>();
+        userResponse.add(userNicole);
+
+        Mockito.when(userRepository.findByUsernameAndPassword
+                ("nicolepristin", "123123")).thenReturn(userResponse);
+
+        assertEquals(userController.verifyLogin("nicolepristin", "123123"), true);
+    }
+
+    @Test
+    public void verifyLoginFailureTest() {
+        User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
+                "Nicole Pristin", false);
+        List<User> userResponse = new ArrayList<>();
+
+        Mockito.when(userRepository.findByUsernameAndPassword
+                ("nicolepristin", "123123")).thenReturn(userResponse);
+
+        assertEquals(userController.verifyLogin("nicolepristin", "123123"), false);
     }
 }
