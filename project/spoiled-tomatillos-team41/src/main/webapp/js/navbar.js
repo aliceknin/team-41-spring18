@@ -34,6 +34,10 @@ var NavBar = React.createClass({
       $('.dropdown-toggle').dropdown('toggle');
     }
   },
+  logout: function() {
+    this.setState({user: null});
+    localStorage.removeItem('user');
+  },
   render: function() {
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -66,7 +70,10 @@ var NavBar = React.createClass({
               <li><a href="explore.html"><span className="glyphicon glyphicon-search" /> Explore</a></li>
               {
                 this.state.user ? (
-                  <li><a href="#"><span className="glyphicon glyphicon-user" /> {this.state.user}</a></li>
+                  [
+                    <li><a href="#"><span className="glyphicon glyphicon-user" /> {this.state.user}</a></li>,
+                    <li><a href="#" onClick={this.logout}><span className="glyphicon glyphicon-log-out" /> Logout</a></li>
+                  ]
                 ) : (
                   [
                     <li key='0'><a href="createUser.html"><span className="glyphicon glyphicon-user" /> Sign Up</a></li>,
