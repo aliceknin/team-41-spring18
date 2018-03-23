@@ -67,6 +67,7 @@ var NavBar = React.createClass({
               </div>
             </div>
             <ul className="nav navbar-nav navbar-right">
+              <li><a href="profile.html"><span className="glyphicon glyphicon-user" /> Profile</a></li>
               <li><a href="explore.html"><span className="glyphicon glyphicon-search" /> Explore</a></li>
               {
                 this.state.user ? (
