@@ -1,6 +1,5 @@
 package edu.neu.cs4500.controllers.friend;
 
-import edu.neu.cs4500.controllers.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
