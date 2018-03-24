@@ -20,33 +20,21 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
-	// Inserts a static user example with username 'nicolepristin'
-	@RequestMapping("/api/user/insert")
-	public User insertUser() {
-		User user = new User("nicolepristin", "pw", "pristin.n@husky.neu.edu", "Nicole Pristin", true);
-		userRepository.save(user);
-		return user;
-	}
-
 	// Creates an end user based on their username, password, email, fullname
 	// This does not create an admin user, just a basic end user
 	@RequestMapping("/api/user/create/{username}/{pw}/{email}/{fullName}")
-	public User/*ResponseEntity<Object> */createEndUser(@PathVariable("username") String username, @PathVariable("pw") String pw,
+	public ResponseEntity<User> createEndUser(@PathVariable("username") String username, @PathVariable("pw") String pw,
 						   @PathVariable("email") String email, @PathVariable("fullName") String fullName)
 							throws URISyntaxException {
 
 		if (userRepository.findByUsername(username).size() != 0) {
-			throw new WebServiceException("A user with this username already exists");
+			throw new IllegalArgumentException("A user with this username already exists");
 		} else if (userRepository.findByEmail(email).size() != 0) {
-			throw new WebServiceException("A user with this email already exists");
+			throw new IllegalArgumentException("A user with this email already exists");
 		} else {
 			User user = new User(username, pw, email, fullName, false);
 			userRepository.save(user);
-
-			//URI uri = new URI("http://localhost:8080/accountCreated.html");
-			//HttpHeaders httpHeaders = new HttpHeaders();
-			//httpHeaders.setLocation(uri);
-			return user;//new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 
 		}
 	}
