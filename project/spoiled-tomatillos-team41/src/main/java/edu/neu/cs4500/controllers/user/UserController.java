@@ -2,6 +2,7 @@ package edu.neu.cs4500.controllers.user;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,17 @@ public class UserController {
 	public List<User> selectAllUserObjects() {
 		List<User> users = (List<User>) userRepository.findAll();
 		return users;
+	}
+
+	// Returns all usernames that contain the given query
+	@RequestMapping("/api/user/select/{query}")
+	public List<String> selectUsernamesContainingQuery(@PathVariable("query") String query) {
+		List<User> users = (List<User>) userRepository.findByUsernameContaining(query);
+		List<String> usernames = new ArrayList<>();
+		for (User user : users) {
+			usernames.add(user.username);
+		}
+		return usernames;
 	}
 
 	// Verifies that the user can login by checking if the provided username and password match a record

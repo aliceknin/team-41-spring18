@@ -2,7 +2,8 @@ var NavBar = React.createClass({
   getInitialState: function() {
     return {
       searchInput: '',
-      searchResults: [],
+      movieResults: [],
+      userResults: [],
       user: localStorage.getItem('user')
     };
   },
@@ -25,7 +26,20 @@ var NavBar = React.createClass({
           href: 'movie.html?id=' + movies[i].imdbID
         });
       }
-      self.setState({ searchResults: results });
+      self.setState({ movieResults: results });
+    });
+    $.ajax({
+      url: 'http://' + window.location.hostname + ':8080/api/user/select/' + this.state.searchInput
+    }).then(function(data) {
+      var results = [];
+      var length = data.length < 5 ? data.length : 5;
+      for (var i = 0; i < length; i++) {
+        results.push({
+          text: data[i],
+          href: 'profile.html?username=' + data[i]
+        });
+      }
+      self.setState({ userResults: results });
     });
   },
   handleKeyPress: function(evt) {
@@ -60,7 +74,12 @@ var NavBar = React.createClass({
                 </div>
                 <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}>Submit</button>
                 <ul className="dropdown-menu">
-                  {this.state.searchResults.map(function(result, index) {
+                  <li className="dropdown-item">Movies:</li>
+                  {this.state.movieResults.map(function(result, index) {
+                    return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
+                  })}
+                  <li className="dropdown-item">Users:</li>
+                  {this.state.userResults.map(function(result, index) {
                     return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
                   })}
                 </ul>
