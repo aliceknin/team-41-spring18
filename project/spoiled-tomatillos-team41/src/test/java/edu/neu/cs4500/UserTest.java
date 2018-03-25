@@ -1,8 +1,6 @@
 package edu.neu.cs4500;
 
-import edu.neu.cs4500.controllers.user.User;
-import edu.neu.cs4500.controllers.user.UserController;
-import edu.neu.cs4500.controllers.user.UserRepository;
+import edu.neu.cs4500.controllers.user.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -141,5 +139,46 @@ public class UserTest {
         Mockito.verify(userRepository, times(1)).delete(userNicole);
     }
 
+    @Test
+    public void selectUsernamesContainingQueryTest() {
+        User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
+                "Nicole Pristin", true);
+        User userLuna = new User("lunapristin", "321321", "luna@gmail.com", "Luna Pristin", false);
+        List<User> userResponse = new ArrayList<>();
+        userResponse.add(userNicole);
+        userResponse.add(userLuna);
 
+        Mockito.when(userRepository.findByUsernameContaining("query")).thenReturn(userResponse);
+        List<String> usernames = userController.selectUsernamesContainingQuery("query");
+
+        assertEquals(usernames.size(), 2);
+        assertTrue(usernames.contains("lunapristin"));
+        assertTrue(usernames.contains("nicolepristin"));
+    }
+
+    @Test
+    public void testCreateEndAndAdminuser() {
+        User endUser = new EndUser("lunapristin", "123456",
+                "luna@yahoo.com", "Luna Pristin", false);
+        User adminUser = new AdminUser("nicolepristin", "131313",
+                "nicoletest@aim.com", "Nicole Pristin", true);
+    }
+
+    @Test
+    public void testUserSettersAndGetters() {
+        User user = new User();
+        user.setId(13);
+        user.setUsername("nicolepristin");
+        user.setPassword("87sdgj");
+        user.setEmail("nicoletest@gmail.com");
+        user.setFullName("Nicole Pristin");
+        user.setAdmin(true);
+
+        assertEquals(user.getId(), 13);
+        assertEquals(user.getUsername(), "nicolepristin");
+        assertEquals(user.getPassword(), "87sdgj");
+        assertEquals(user.getEmail(), "nicoletest@gmail.com");
+        assertEquals(user.getFullName(), "Nicole Pristin");
+        assertEquals(user.getAdmin(), true);
+    }
 }
