@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class FriendController {
 
@@ -25,5 +28,24 @@ public class FriendController {
             friend = friendRepository.findByUserIdAndFriendId(friendId, userId).get(0);
         }
         friendRepository.delete(friend);
+    }
+
+    @RequestMapping("/api/friend/select/{user_id}")
+    public List<Integer> getFriendsForUser(@PathVariable("user_id") int userId) {
+        List<Integer> userFriends = new ArrayList<>();
+
+        List<Friend> friends = friendRepository.findByUserId(userId);
+        for (Friend f : friends) {
+            int fid = f.getFriendId();
+            int uid = f.getUserId();
+
+            if (fid != userId && !userFriends.contains(fid)) {
+                userFriends.add(fid);
+            }
+            if (uid != userId && !userFriends.contains(uid)) {
+                userFriends.add(uid);
+            }
+        }
+        return userFriends;
     }
 }
