@@ -13,12 +13,12 @@ public class Recommendation {
     private int id;
     private int recFromUserId;
     private int recToUserId;
-    private int movieId;
+    private String IMDBMovieId;
 
-    public Recommendation(int recFromUserId, int recToUserId, int movieId) {
+    public Recommendation(int recFromUserId, int recToUserId, String IMDBMovieId) {
         this.recFromUserId = recFromUserId;
         this.recToUserId = recToUserId;
-        this.movieId = movieId;
+        this.IMDBMovieId = IMDBMovieId;
     }
 
     public Recommendation() {
@@ -45,11 +45,11 @@ public class Recommendation {
         this.recToUserId = recToUserId;
     }
 
-    public int getMovieId() {
-        return this.movieId;
+    public String getIMDBMovieId() {
+        return this.IMDBMovieId;
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setIMDBMovieId(String IMDBMovieId) {
+        this.IMDBMovieId = IMDBMovieId;
     }
 }

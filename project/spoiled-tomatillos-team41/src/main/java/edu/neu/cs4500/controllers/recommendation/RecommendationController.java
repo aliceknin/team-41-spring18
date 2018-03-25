@@ -14,11 +14,11 @@ public class RecommendationController {
     @Autowired
     RecommendationRepository recRepository;
 
-    @RequestMapping("/api/recommendation/add/{from_user_id}/{to_user_id}/{movie_id")
+    @RequestMapping("/api/recommendation/add/{from_user_id}/{to_user_id}/{imdb_id")
     public Recommendation addRecommendation(@PathVariable("from_user_id") int recFromUserId,
                                             @PathVariable("to_user_id") int recToUserId,
-                                            @PathVariable("movie_id") int movieId) {
-        Recommendation rec = new Recommendation(recFromUserId, recToUserId, movieId);
+                                            @PathVariable("imdb_id") String imdbMovieId) {
+        Recommendation rec = new Recommendation(recFromUserId, recToUserId, imdbMovieId);
         recRepository.save(rec);
         return rec;
     }
@@ -30,12 +30,12 @@ public class RecommendationController {
     }
 
     @RequestMapping("/api/recommendation/{to_user_id}/select/movies")
-    public List<Integer> getUserRecommendedMovies(@PathVariable("to_user_id") int userId) {
-        List<Integer> movies = new ArrayList<>();
+    public List<String> getUserRecommendedMovies(@PathVariable("to_user_id") int userId) {
+        List<String> movies = new ArrayList<>();
 
         List<Recommendation> recommendations = recRepository.findByRecToUserId(userId);
         for (Recommendation rec : recommendations) {
-            int movieId = rec.getMovieId();
+            String movieId = rec.getIMDBMovieId();
             movies.add(movieId);
         }
         return movies;
