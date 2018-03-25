@@ -23,11 +23,13 @@ public class FriendController {
 
     @RequestMapping("/api/friend/delete/{user_id}/{friend_id}")
     public void removeFriend(@PathVariable("user_id") int userId, @PathVariable("friend_id") int friendId) {
-        Friend friend = friendRepository.findByUserIdAndFriendId(userId, friendId).get(0);
-        if (friend == null) {
-            friend = friendRepository.findByUserIdAndFriendId(friendId, userId).get(0);
+        List<Friend> friends = friendRepository.findByUserIdAndFriendId(userId, friendId);
+        if (friends == null) {
+            Friend friend = friendRepository.findByUserIdAndFriendId(friendId, userId).get(0);
+            friendRepository.delete(friend);
+        } else {
+            friendRepository.delete(friends.get(0));
         }
-        friendRepository.delete(friend);
     }
 
     @RequestMapping("/api/friend/select/{user_id}")
@@ -35,17 +37,19 @@ public class FriendController {
         List<Integer> userFriends = new ArrayList<>();
 
         List<Friend> friends = friendRepository.findByUserId(userId);
-        for (Friend f : friends) {
-            int fid = f.getFriendId();
-            int uid = f.getUserId();
+        List<Friend> friends2 = friendRepository.findByFriendId(userId);
 
-            if (fid != userId && !userFriends.contains(fid)) {
-                userFriends.add(fid);
-            }
-            if (uid != userId && !userFriends.contains(uid)) {
-                userFriends.add(uid);
-            }
+        for (Friend f : friends) {
+            int id = f.getFriendId();
+            userFriends.add(id);
         }
+        for (Friend f : friends2) {
+            int id = f.getUserId();
+            userFriends.add(id);
+        }
+
         return userFriends;
     }
+
+
 }

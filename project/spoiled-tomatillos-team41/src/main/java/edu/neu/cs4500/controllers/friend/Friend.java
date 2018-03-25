@@ -10,6 +10,7 @@ public class Friend {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
     private int userId;
     private int friendId;
 
@@ -20,6 +21,12 @@ public class Friend {
 
     public Friend() {
         
+    }
+
+    public int getId() { return id; }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {
