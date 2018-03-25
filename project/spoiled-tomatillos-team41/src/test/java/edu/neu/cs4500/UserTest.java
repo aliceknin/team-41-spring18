@@ -158,15 +158,6 @@ public class UserTest {
                 "nicoletest@aim.com", "Nicole Pristin", true);
     }
 
-    /*
-    private int id;
-	String username;
-	String password;
-	String email;
-	String fullName;
-	boolean admin;
-     */
-
     @Test
     public void testUserSettersAndGetters() {
         User user = new User();
