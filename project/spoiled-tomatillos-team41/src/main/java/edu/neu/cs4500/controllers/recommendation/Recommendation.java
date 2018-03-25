@@ -10,6 +10,7 @@ public class Recommendation {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
     private int recFromUserId;
     private int recToUserId;
     private int movieId;
@@ -23,6 +24,10 @@ public class Recommendation {
     public Recommendation() {
 
     }
+
+    public int getId() { return this.id; }
+
+    public void setId(int id) { this.id = id; }
 
     public int getRecFromUserId() {
         return this.recFromUserId;
