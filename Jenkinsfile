@@ -22,7 +22,7 @@ pipeline {
     stage('SonarQube') {
       steps {
         withSonarQubeEnv('SonarQube') {
-          sh 'mvn clean install -f project/spoiled-tomatillos-team41/pom.xml'
+          sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=false -f project/spoiled-tomatillos-team41/pom.xml'
           sh 'mvn sonar:sonar -f project/spoiled-tomatillos-team41/pom.xml'
         }
       }
