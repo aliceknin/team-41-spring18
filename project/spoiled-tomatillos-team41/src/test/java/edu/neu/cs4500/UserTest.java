@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +39,7 @@ public class UserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void createUserWithExistingUsernameTest() throws URISyntaxException {
+    public void createUserWithExistingUsernameTest() throws URISyntaxException, NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
                 "Nicole Pristin", true);
 
@@ -53,7 +55,7 @@ public class UserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void createUserWithExistingEmailTest() throws URISyntaxException {
+    public void createUserWithExistingEmailTest() throws URISyntaxException, NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
                 "Nicole Pristin", true);
 
@@ -68,7 +70,7 @@ public class UserTest {
     }
 
     @Test
-    public void createUserTest() throws URISyntaxException {
+    public void createUserTest() throws URISyntaxException, NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
                 "Nicole Pristin", false);
 
@@ -84,20 +86,24 @@ public class UserTest {
     }
 
     @Test
-    public void verifyLoginSuccessTest() {
-        User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
+    public void verifyLoginSuccessTest() throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        messageDigest.update("123123".getBytes());
+        String encryptedString = new String(messageDigest.digest());
+
+        User userNicole = new User("nicolepristin", encryptedString, "nicoletest@gmail.com",
                 "Nicole Pristin", false);
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
 
         Mockito.when(userRepository.findByUsernameAndPassword
-                ("nicolepristin", "123123")).thenReturn(userResponse);
+                ("nicolepristin", encryptedString)).thenReturn(userResponse);
 
         assertEquals(userController.verifyLogin("nicolepristin", "123123"), true);
     }
 
     @Test
-    public void verifyLoginFailureTest() {
+    public void verifyLoginFailureTest() throws NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
                 "Nicole Pristin", false);
         List<User> userResponse = new ArrayList<>();
