@@ -28,14 +28,10 @@ public class ReviewController {
     // Adds a review for a movie with the given ImdbID
     @RequestMapping("/api/review/add/{imdbID}/{rating}/{review}/{username}")
     public Review addReview(@PathVariable("imdbID") String imdbID, @PathVariable("rating") int rating,
-                            @PathVariable("review") String review, @PathVariable("username") String username) {
-        try {
-            Review newReview = new Review(imdbID, rating, review, username, 0);
-            reviewRepository.save(newReview);
-            return newReview;
-        } catch (Exception e) {
-            throw new WebServiceException(e);
-        }
+                            @PathVariable("review") String review, @PathVariable("username") String username) throws InstantiationException {
+        Review newReview = new Review(imdbID, rating, review, username, 0);
+        reviewRepository.save(newReview);
+        return newReview;
     }
 
     // Returns all the reviews for a movie with the given ImdbID
@@ -48,25 +44,17 @@ public class ReviewController {
     // Deletes a review from a movie page
     @RequestMapping("/api/review/delete/{review_id}")
     public ResponseEntity<Review> deleteReview(@PathVariable("review_id") int id) {
-        try {
-            Review review = reviewRepository.findById(id);
-            reviewRepository.delete(review);
-            return ResponseEntity.ok(review);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Review review = reviewRepository.findById(id);
+        reviewRepository.delete(review);
+        return ResponseEntity.ok(review);
     }
 
     // Upvotes a review from a movie page
     @RequestMapping("/api/review/upvote/{review_id}")
     public ResponseEntity<Review> upvoteReview(@PathVariable("review_id") int id) {
-        try {
-            Review review = reviewRepository.findById(id);
-            review.setUpvotes(review.getUpvotes() + 1);
-            reviewRepository.save(review);
-            return ResponseEntity.ok(review);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Review review = reviewRepository.findById(id);
+        review.setUpvotes(review.getUpvotes() + 1);
+        reviewRepository.save(review);
+        return ResponseEntity.ok(review);
     }
 }
