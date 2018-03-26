@@ -86,12 +86,11 @@ var NavBar = React.createClass({
               </div>
             </div>
             <ul className="nav navbar-nav navbar-right">
-              <li><a href="profile.html"><span className="glyphicon glyphicon-user" /> Profile</a></li>
               <li><a href="explore.html"><span className="glyphicon glyphicon-search" /> Explore</a></li>
               {
                 this.state.user ? (
                   [
-                    <li key='0'><a href="#"><span className="glyphicon glyphicon-user" /> {this.state.user}</a></li>,
+                    <li key='0'><a href={'profile.html?username=' + this.state.user}><span className="glyphicon glyphicon-user" /> {this.state.user}</a></li>,
                     <li key='1'><a href="#" onClick={this.logout}><span className="glyphicon glyphicon-log-out" /> Logout</a></li>
                   ]
                 ) : (
