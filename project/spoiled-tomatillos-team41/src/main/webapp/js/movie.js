@@ -143,30 +143,75 @@ var ReviewModal = React.createClass({
 var Rec = React.createClass({
     getInitialState: function() {
           return {
+            searchInput: '',
+            userResults: [],
+            user: localStorage.getItem('user'),
+            fromUserID: '',
             toUserID: ''
           };
     },
-    handleRec: function() {
-          var self = this; 
-          var movieID = this.props.movieID; 
-          var fromUserId = localStorage.getItem('user'); 
-
-          $.ajax({ 
-            url: hostUrl + "/api/recommendation/add/" + fromUserId + "/" + this.state.toUserID + "/" + movieID, 
-            type: 'PUT', 
-          }); 
+    getFromUserID: function() {
+      var self = this;
+      $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + this.state.user
+      }).then(function(data) {
+        self.setState({fromUserID: data.id})
+      });
     },
-    handleChange: function(evt) {
+    updateSearchInput: function(evt) {
         this.setState({
-          toUserID: evt.target.value
+          searchInput: evt.target.value
+        });
+    },
+    handleKeyPress: function(evt) {
+        if (evt.key === 'Enter') {
+          this.search();
+          $('.dropdown-toggle').dropdown('toggle');
+        }
+    },
+    createAPI: function(username) {
+        var self = this;
+        this.Rec.getFromUserID();
+        $.ajax({
+          url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
+        }).then(function(data) {
+          var id = data.id;
+          var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + this.state.fromUserID + '/' + id + this.props.movieID;
+          return recAPI;
+        });
+    },
+    searchAndRec: function() {
+        var self = this;
+        $.ajax({
+          url: 'http://' + window.location.hostname + ':8080/api/user/select/' + this.state.searchInput
+        }).then(function(data) {
+          var results = [];
+          var length = data.length < 5 ? data.length : 5;
+          for (var i = 0; i < length; i++) {
+            results.push({
+              text: data[i],
+              href: this.Rec.createAPI(data[i])
+            });
+          }
+          self.setState({ userResults: results });
         });
     },
     render: function() {
       return(
-        <div className="rec">
-          <input type="text" value={this.state.toUserID}  onChange={this.handleChange} />
-          <button className="btn btn-default" id="rec" onClick={this.handleRec}>Recommend!</button>
-        </div>
+        <div className="dropdown">
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="Search for a user"
+              value={this.state.searchInput} onChange={this.updateSearchInput}
+              onKeyPress={this.handleKeyPress} />
+          </div>
+          <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.searchAndRec}>Search</button>
+          <ul className="dropdown-menu">
+            <li className="dropdown-item">Users:</li>
+              {this.state.userResults.map(function(result, index) {
+                return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
+              })}
+          </ul>
+       </div>
       );
     }
 });
