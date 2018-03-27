@@ -165,18 +165,18 @@ var Rec = React.createClass({
     },
     handleKeyPress: function(evt) {
         if (evt.key === 'Enter') {
-          this.search();
+          this.searchAndRec();
           $('.dropdown-toggle').dropdown('toggle');
         }
     },
     createAPI: function(username) {
         var self = this;
-        this.Rec.getFromUserID();
+        this.getFromUserID();
         $.ajax({
           url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
         }).then(function(data) {
           var id = data.id;
-          var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + this.state.fromUserID + '/' + id + this.props.movieID;
+          var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + self.state.fromUserID + '/' + id + this.props.movieID;
           return recAPI;
         });
     },
@@ -190,8 +190,9 @@ var Rec = React.createClass({
           for (var i = 0; i < length; i++) {
             results.push({
               text: data[i],
-              href: this.Rec.createAPI(data[i])
+              href: self.createAPI(data[i])
             });
+            console.log(self.createAPI(data[i]));
           }
           self.setState({ userResults: results });
         });
@@ -208,7 +209,7 @@ var Rec = React.createClass({
           <ul className="dropdown-menu">
             <li className="dropdown-item">Users:</li>
               {this.state.userResults.map(function(result, index) {
-                return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
+                return <li className="dropdown-item" key={index} ><a href={result.href}>{result.text}</a></li>;
               })}
           </ul>
        </div>
