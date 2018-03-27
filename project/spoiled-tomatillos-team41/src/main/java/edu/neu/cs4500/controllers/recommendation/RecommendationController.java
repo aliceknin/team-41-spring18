@@ -14,7 +14,7 @@ public class RecommendationController {
     @Autowired
     RecommendationRepository recRepository;
 
-    @RequestMapping("/api/recommendation/add/{from_user_id}/{to_user_id}/{imdb_id")
+    @RequestMapping("/api/recommendation/add/{from_user_id}/{to_user_id}/{imdb_id}")
     public Recommendation addRecommendation(@PathVariable("from_user_id") int recFromUserId,
                                             @PathVariable("to_user_id") int recToUserId,
                                             @PathVariable("imdb_id") String imdbMovieId) {
