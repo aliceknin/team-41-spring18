@@ -143,28 +143,28 @@ var ReviewModal = React.createClass({
 var Rec = React.createClass({
     getInitialState: function() {
           return {
-            value: ''
+            toUserID: ''
           };
     },
     handleRec: function() {
           var self = this; 
-          var movieID = this.props.movie.id; 
+          var movieID = this.props.movieID; 
           var fromUserId = localStorage.getItem('user'); 
 
           $.ajax({ 
-            url: hostUrl + "/api/recommendation/add/" + fromUserId + "/" + value + "/" + movieID, 
+            url: hostUrl + "/api/recommendation/add/" + fromUserId + "/" + this.state.toUserID + "/" + movieID, 
             type: 'PUT', 
           }); 
     },
     handleChange: function(evt) {
         this.setState({
-          value: evt.target.value
+          toUserID: evt.target.value
         });
     },
     render: function() {
       return(
         <div className="rec">
-          <input type="text" value={this.state.value}  onChange={this.handleChange} />
+          <input type="text" value={this.state.toUserID}  onChange={this.handleChange} />
           <button className="btn btn-default" id="rec" onClick={this.handleRec}>Recommend!</button>
         </div>
       );
@@ -183,7 +183,7 @@ var Movie = React.createClass({
               <h4>Your rating: </h4>
               <StarRating rating={this.props.data.imdbRating} modalHandler={this.props.modalHandler}/><span>({this.props.data.imdbRating} on IMDB)</span>
               <h4>Recommend to a friend: </h4>
-              <Rec />
+              <Rec movieID={this.props.data.imdbID} />
               <h4><span className="label">Genre: </span>{this.props.data.Genre}</h4>
               <h4><span className="label">Rated: </span>{this.props.data.Rated}</h4>
               <h4><span className="label">Directed by: </span>{this.props.data.Director}</h4>
