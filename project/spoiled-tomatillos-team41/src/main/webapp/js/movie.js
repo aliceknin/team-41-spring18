@@ -143,7 +143,7 @@ var ReviewModal = React.createClass({
 var Rec = React.createClass({
     getInitialState: function() {
           return {
-            toUserId: ''
+            value: ''
           };
     },
     handleRec: function() {
@@ -152,20 +152,21 @@ var Rec = React.createClass({
           var fromUserId = localStorage.getItem('user'); 
 
           $.ajax({ 
-            url: hostUrl + "/api/recommendation/add/" + fromUserId + "/" + toUserId + "/" + movieID, 
+            url: hostUrl + "/api/recommendation/add/" + fromUserId + "/" + value + "/" + movieID, 
             type: 'PUT', 
-            success: function(result) { 
-              console.log("sent rec");
-            } 
-            error: function(xhr, ajaxOptions, thrownError) { 
-              alert(xhr.responseJSON.message); 
-            } 
           }); 
+    },
+    handleChange: function(evt) {
+        this.setState({
+          value: evt.target.value
+        });
     },
     render: function() {
       return(
-        <input type="text" value={this.state.toUserId} />
-        <button className="btn btn-default" id="rec" onClick={this.handleRec} >Recommend!</button>
+        <div className="rec">
+          <input type="text" value={this.state.value}  onChange={this.handleChange} />
+          <button className="btn btn-default" id="rec" onClick={this.handleRec}>Recommend!</button>
+        </div>
       );
     }
 });
