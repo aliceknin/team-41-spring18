@@ -89,11 +89,11 @@ public class FriendTest {
                 .thenReturn(friends2);
 
         List<Integer> friends = friendController.getFriendsForUser(13);
-        assertEquals(friends.size(), 4);
+        assertEquals(friends.size(), 2);
         assertTrue(friends.contains(94));
         assertTrue(friends.contains(76));
-        assertTrue(friends.contains(47));
-        assertTrue(friends.contains(107));
+        assertTrue(!friends.contains(47));
+        assertTrue(!friends.contains(107));
     }
 
     @Test

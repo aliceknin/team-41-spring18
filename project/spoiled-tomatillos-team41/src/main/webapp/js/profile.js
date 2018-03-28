@@ -5,14 +5,14 @@ var Profile = React.createClass({
       fullName: '',
       userID: '',
       loggedInUser: localStorage.getItem('user'),
-      loggedInUserID: ''
+      loggedInUserID: '',
+      following: ''
     };
   },
   componentDidMount: function () {
     const user = this.getUsernameFromUrl();
     this.setState({currentUser : user});
     this.loadUserData(user);
-    this.loadLoggedInData();
   },
   getUsernameFromUrl: function() {
       var queryString = window.location.search.slice(1);
@@ -31,23 +31,63 @@ var Profile = React.createClass({
         url: 'http://' + window.location.hostname + ':8080/api/user/info/' + id
     }).then(function (data) {
         self.setState({fullName: data.fullName});
-        self.setState({userID: data.id})
+        self.setState({userID: data.id});
+        self.loadLoggedInData(data.id)
     });
   },
   follow: function() {
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/friend/add/' + this.state.loggedInUserID + '/' + this.state.userID
     });
+    this.hideElement("addFriend");
+    this.showElement("removeFriend");
   },
-  loadLoggedInData: function() {
+  unfollow: function() {
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/delete/' + this.state.loggedInUserID + '/' + this.state.userID
+    });
+    this.hideElement("removeFriend");
+    this.showElement("addFriend");
+  },
+  loadLoggedInData: function(profileID) {
     var self = this;
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/info/' + this.state.loggedInUser
     }).then(function (data) {
-        console.log(data.id);
-        self.setState({loggedInUserID: data.id})
+        self.setState({loggedInUserID: data.id});
+        self.followControls(profileID, data.id)
     });
-    console.log(this.state.loggedInUserID);
+  },
+  followControls: function (profileID, myID) {
+    if (myID == profileID) {
+      this.hideElement("addFriend");
+      this.hideElement("removeFriend");
+    }
+    else {
+      this.alreadyFollowing(profileID, myID);
+    }
+  },
+  hideElement: function(elementID) {
+    var x = document.getElementById(elementID);
+    x.style.display="none";
+  },
+  showElement: function(elementID) {
+    var x = document.getElementById(elementID);
+    x.style.display="block";
+  },
+  alreadyFollowing: function(profileID, myID) {
+    var following = false;
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/' + myID
+      }).then(function (data) {
+        if (data.includes(profileID)) {
+          self.hideElement("addFriend");
+        }
+        else {
+          self.hideElement("removeFriend");
+        }
+      });
   },
   render: function() {
     return(
@@ -57,6 +97,7 @@ var Profile = React.createClass({
             <h1 className>{this.state.currentUser}</h1>
             <div>
               <button className="btn btn-default" type='button' id='addFriend' onClick={this.follow}>Follow</button>
+              <button className="btn btn-default" type='button' id='removeFriend' onClick={this.unfollow}>Unfollow</button>
             </div>
             <br />
           </div>
