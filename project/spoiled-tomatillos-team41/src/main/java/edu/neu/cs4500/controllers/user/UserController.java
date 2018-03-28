@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.cs4500.controllers.logger.Logger;
+import edu.neu.cs4500.controllers.logger.LoggerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ public class UserController {
 	
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	LoggerRepository loggerRepository;
 
 	// Creates an end user based on their username, password, email, fullname
 	// This does not create an admin user, just a basic end user
@@ -37,8 +42,10 @@ public class UserController {
 
 			User user = new User(username, encryptedString, email, fullName, false);
 			userRepository.save(user);
-			return new ResponseEntity<>(user, HttpStatus.OK);
 
+			String apiCall = "/api/user/create/" + username + "/" + pw + "/" + email + "/" + fullName;
+			loggerRepository.save(new Logger(apiCall));
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 	}
 

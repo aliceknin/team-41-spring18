@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name="log")
-public class Log {
+public class Logger {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -13,13 +13,11 @@ public class Log {
     private Date created;
     private Date updated;
 
-    public Log(String apiCall, Date created, Date updated) {
+    public Logger(String apiCall) {
         this.apiCall = apiCall;
-        this.created = created;
-        this.updated = updated;
     }
 
-    public Log() {
+    public Logger() {
 
     }
 
