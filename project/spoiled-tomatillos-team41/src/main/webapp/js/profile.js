@@ -3,13 +3,16 @@ var Profile = React.createClass({
     return {
       currentUser: '',
       fullName: '',
-      loggedInUser: localStorage.getItem('user')
+      userID: '',
+      loggedInUser: localStorage.getItem('user'),
+      loggedInUserID: ''
     };
   },
   componentDidMount: function () {
     const user = this.getUsernameFromUrl();
     this.setState({currentUser : user});
     this.loadUserData(user);
+    this.loadLoggedInData();
   },
   getUsernameFromUrl: function() {
       var queryString = window.location.search.slice(1);
@@ -27,8 +30,24 @@ var Profile = React.createClass({
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/info/' + id
     }).then(function (data) {
-        self.setState({fullName: data.fullName})
+        self.setState({fullName: data.fullName});
+        self.setState({userID: data.id})
     });
+  },
+  follow: function() {
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/add/' + this.state.loggedInUserID + '/' + this.state.userID
+    });
+  },
+  loadLoggedInData: function() {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + this.state.loggedInUser
+    }).then(function (data) {
+        console.log(data.id);
+        self.setState({loggedInUserID: data.id})
+    });
+    console.log(this.state.loggedInUserID);
   },
   render: function() {
     return(
@@ -36,6 +55,9 @@ var Profile = React.createClass({
         <div className="row">
           <div className="col-sm-10">
             <h1 className>{this.state.currentUser}</h1>
+            <div>
+              <button className="btn btn-default" type='button' id='addFriend' onClick={this.follow}>Follow</button>
+            </div>
             <br />
           </div>
           <div className="col-sm-2"><a href="/users" className="pull-right"><img title="profile image" className="img-circle img-responsive" src /></a>
