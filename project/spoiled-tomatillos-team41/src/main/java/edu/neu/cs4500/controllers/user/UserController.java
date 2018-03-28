@@ -28,9 +28,9 @@ public class UserController {
 						   @PathVariable("email") String email, @PathVariable("fullName") String fullName)
 			throws URISyntaxException, NoSuchAlgorithmException {
 
-		if (userRepository.findByUsername(username).size() != 0) {
+		if (!userRepository.findByUsername(username).isEmpty()) {
 			throw new IllegalArgumentException("A user with this username already exists");
-		} else if (userRepository.findByEmail(email).size() != 0) {
+		} else if (!userRepository.findByEmail(email).isEmpty()) {
 			throw new IllegalArgumentException("A user with this email already exists");
 		} else {
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -46,8 +46,7 @@ public class UserController {
 	// Returns all the users registered with the system
 	@RequestMapping("/api/user/select/all")
 	public List<User> selectAllUserObjects() {
-		List<User> users = userRepository.findAll();
-		return users;
+		return userRepository.findAll();
 	}
 
 	// Returns all usernames that contain the given query
@@ -69,7 +68,11 @@ public class UserController {
 		String encryptedString = new String(messageDigest.digest());
 
 		List<User> users = userRepository.findByUsernameAndPassword(username, encryptedString);
+<<<<<<< HEAD
 		return users.size() != 0;
+=======
+		 return !users.isEmpty();
+>>>>>>> 681ad8a621462e94e243105a5ea52e09a1d59f40
 	}
 
 	// Gets all the user information for a username

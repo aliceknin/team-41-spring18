@@ -19,9 +19,27 @@ pipeline {
         sh 'mvn test -f project/spoiled-tomatillos-team41/pom.xml'
       }
     }
-    stage('Deploy') {
+    stage('SonarQube') {
       steps {
-        echo "Deploy"
+        withSonarQubeEnv('SonarQube') {
+          sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=false -f project/spoiled-tomatillos-team41/pom.xml'
+          sh 'mvn sonar:sonar -f project/spoiled-tomatillos-team41/pom.xml'
+        }
+      }
+    }
+    stage('Quality') {
+      steps {
+        sh 'sleep 30'
+        timeout(time: 10, unit:'SECONDS') {
+          retry(5) {
+            script {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -45,17 +45,11 @@ public class FriendController {
         List<Integer> userFriends = new ArrayList<>();
 
         List<Friend> friends = friendRepository.findByUserId(userId);
-        List<Friend> friends2 = friendRepository.findByFriendId(userId);
 
         for (Friend f : friends) {
             int id = f.getFriendId();
             userFriends.add(id);
         }
-        for (Friend f : friends2) {
-            int id = f.getUserId();
-            userFriends.add(id);
-        }
-
         return userFriends;
     }
 

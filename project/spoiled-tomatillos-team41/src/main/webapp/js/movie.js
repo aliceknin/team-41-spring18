@@ -140,6 +140,83 @@ var ReviewModal = React.createClass({
   },
 });
 
+var Rec = React.createClass({
+    getInitialState: function() {
+          return {
+            searchInput: '',
+            userResults: [],
+            user: localStorage.getItem('user'),
+            fromUserID: '',
+            toUserID: ''
+          };
+    },
+    getFromUserID: function() {
+      var self = this;
+      $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + this.state.user
+      }).then(function(data) {
+        self.setState({fromUserID: data.id})
+      });
+    },
+    updateSearchInput: function(evt) {
+        this.setState({
+          searchInput: evt.target.value
+        });
+    },
+    handleKeyPress: function(evt) {
+        if (evt.key === 'Enter') {
+          this.searchAndRec();
+          $('.dropdown-toggle').dropdown('toggle');
+        }
+    },
+    createAPI: function(username) {
+        var self = this;
+        this.getFromUserID();
+        $.ajax({
+          url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
+        }).then(function(data) {
+          var id = data.id;
+          var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + self.state.fromUserID + '/' + id + '/' + self.props.movieID;
+          $.ajax({
+            url: recAPI
+          });
+        });
+    },
+    searchAndRec: function() {
+        var self = this;
+        $.ajax({
+          url: 'http://' + window.location.hostname + ':8080/api/user/select/' + this.state.searchInput
+        }).then(function(data) {
+          var results = [];
+          var length = data.length < 5 ? data.length : 5;
+          for (var i = 0; i < length; i++) {
+            results.push({
+              text: data[i]
+            });
+          }
+          self.setState({ userResults: results });
+        });
+    },
+    render: function() {
+      return(
+        <div className="dropdown">
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="Search for a user"
+              value={this.state.searchInput} onChange={this.updateSearchInput}
+              onKeyPress={this.handleKeyPress} />
+          </div>
+          <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.searchAndRec}>Search</button>
+          <ul className="dropdown-menu">
+            <li className="dropdown-item">Users:</li>
+              {this.state.userResults.map(function(result, index) {
+                return <li className="dropdown-item" key={index} onClick={this.createAPI.bind(this, result.text)}>{result.text}</li>;
+              }, this)}
+          </ul>
+       </div>
+      );
+    }
+});
+
 var Movie = React.createClass({
     render: function() {
         return(
@@ -151,6 +228,8 @@ var Movie = React.createClass({
               <h2>{this.props.data.Title}<small> ({this.props.data.Year})</small></h2>
               <h4>Your rating: </h4>
               <StarRating rating={this.props.data.imdbRating} modalHandler={this.props.modalHandler}/><span>({this.props.data.imdbRating} on IMDB)</span>
+              <h4>Recommend to a friend: </h4>
+              <Rec movieID={this.props.data.imdbID} />
               <h4><span className="label">Genre: </span>{this.props.data.Genre}</h4>
               <h4><span className="label">Rated: </span>{this.props.data.Rated}</h4>
               <h4><span className="label">Directed by: </span>{this.props.data.Director}</h4>
