@@ -1,5 +1,7 @@
 package edu.neu.cs4500;
 
+import edu.neu.cs4500.controllers.logger.Logger;
+import edu.neu.cs4500.controllers.logger.LoggerRepository;
 import edu.neu.cs4500.controllers.recommendation.Recommendation;
 import edu.neu.cs4500.controllers.recommendation.RecommendationController;
 import edu.neu.cs4500.controllers.recommendation.RecommendationRepository;
@@ -23,12 +25,17 @@ public class RecommendationTest {
     private RecommendationController recController;
     @Mock
     private RecommendationRepository recRepository;
+    @Mock
+    private LoggerRepository loggerRepository;
 
     @Test
     public void addRecommendationTest() {
         Recommendation rec = new Recommendation(17, 41, "sdg8275");
+        String apiCall = "/api/recommendation/add/" + 17 + "/" + 41 + "/" + "sdg8275";
+        Logger log = new Logger(apiCall);
 
         Mockito.when(recRepository.save(rec)).thenReturn(rec);
+        Mockito.when(loggerRepository.save(log)).thenReturn(log);
         Recommendation rec2 =
                 recController.addRecommendation(17, 41, "sdg8275");
         assertEquals(rec2.getRecFromUserId(), 17);

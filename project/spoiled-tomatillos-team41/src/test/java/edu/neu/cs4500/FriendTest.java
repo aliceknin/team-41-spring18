@@ -3,6 +3,8 @@ package edu.neu.cs4500;
 import edu.neu.cs4500.controllers.friend.Friend;
 import edu.neu.cs4500.controllers.friend.FriendController;
 import edu.neu.cs4500.controllers.friend.FriendRepository;
+import edu.neu.cs4500.controllers.logger.Logger;
+import edu.neu.cs4500.controllers.logger.LoggerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,10 +29,16 @@ public class FriendTest {
     private FriendController friendController;
     @Mock
     private FriendRepository friendRepository;
+    @Mock
+    private LoggerRepository loggerRepository;
 
     @Test
     public void addFriendTest() {
         Friend friend = new Friend(27, 138);
+        String apiCall = "/api/friend/add/" + 27 + "/" + 138;
+        Logger log = new Logger(apiCall);
+
+        Mockito.when(loggerRepository.save(log)).thenReturn(log);
         ResponseEntity<Friend> responseEntity = new ResponseEntity<>(friend, HttpStatus.OK);
 
         Mockito.when(friendRepository.save(friend)).thenReturn(responseEntity.getBody());
