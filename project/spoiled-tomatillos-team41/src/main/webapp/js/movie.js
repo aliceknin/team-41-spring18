@@ -176,8 +176,10 @@ var Rec = React.createClass({
           url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
         }).then(function(data) {
           var id = data.id;
-          var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + self.state.fromUserID + '/' + id + this.props.movieID;
-          return recAPI;
+          var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + self.state.fromUserID + '/' + id + '/' + self.props.movieID;
+          $.ajax({
+            url: recAPI
+          });
         });
     },
     searchAndRec: function() {
@@ -192,7 +194,6 @@ var Rec = React.createClass({
               text: data[i],
               href: self.createAPI(data[i])
             });
-            console.log(self.createAPI(data[i]));
           }
           self.setState({ userResults: results });
         });
@@ -209,8 +210,8 @@ var Rec = React.createClass({
           <ul className="dropdown-menu">
             <li className="dropdown-item">Users:</li>
               {this.state.userResults.map(function(result, index) {
-                return <li className="dropdown-item" key={index} ><a href={result.href}>{result.text}</a></li>;
-              })}
+                return <li className="dropdown-item" key={index} onClick={this.createAPI.bind(this, result.text)}>{result.text}</li>;
+              }, this)}
           </ul>
        </div>
       );
