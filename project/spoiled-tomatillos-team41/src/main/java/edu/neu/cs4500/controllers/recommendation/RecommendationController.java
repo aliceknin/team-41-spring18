@@ -25,8 +25,7 @@ public class RecommendationController {
 
     @RequestMapping("/api/recommendation/{to_user_id}/select")
     public List<Recommendation> getUserRecommendations(@PathVariable("to_user_id") int userId) {
-        List<Recommendation> recommendations = recRepository.findByRecToUserId(userId);
-        return recommendations;
+        return recRepository.findByRecToUserId(userId);
     }
 
     @RequestMapping("/api/recommendation/{to_user_id}/select/movies")

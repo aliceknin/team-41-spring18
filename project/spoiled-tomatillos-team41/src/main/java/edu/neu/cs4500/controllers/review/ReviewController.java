@@ -1,8 +1,6 @@
 package edu.neu.cs4500.controllers.review;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import javax.xml.ws.WebServiceException;
 
 @RestController
 public class ReviewController {
@@ -21,8 +18,7 @@ public class ReviewController {
     // Returns all reviews in the system
     @RequestMapping("/api/review/select/all")
     public List<Review> getReviews() {
-        List<Review> reviews = (List<Review>) reviewRepository.findAll();
-        return reviews;
+        return reviewRepository.findAll();
     }
 
     // Adds a review for a movie with the given ImdbID
@@ -37,8 +33,7 @@ public class ReviewController {
     // Returns all the reviews for a movie with the given ImdbID
     @RequestMapping("/api/review/select/{imdbID}")
     public List<Review> getReviewsForMovie(@PathVariable("imdbID") String imdbID) {
-        List<Review> reviews = reviewRepository.findByImdbID(imdbID);
-        return reviews;
+        return reviewRepository.findByImdbID(imdbID);
     }
 
     // Deletes a review from a movie page
