@@ -191,8 +191,7 @@ var Rec = React.createClass({
           var length = data.length < 5 ? data.length : 5;
           for (var i = 0; i < length; i++) {
             results.push({
-              text: data[i],
-              href: self.createAPI(data[i])
+              text: data[i]
             });
           }
           self.setState({ userResults: results });
