@@ -21,9 +21,6 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	LoggerRepository loggerRepository;
-
 	// Creates an end user based on their username, password, email, fullname
 	// This does not create an admin user, just a basic end user
 	@RequestMapping("/api/user/create/{username}/{pw}/{email}/{fullName}")
@@ -42,9 +39,6 @@ public class UserController {
 
 			User user = new User(username, encryptedString, email, fullName, false);
 			userRepository.save(user);
-
-			String apiCall = "/api/user/create/" + username + "/" + pw + "/" + email + "/" + fullName;
-			loggerRepository.save(new Logger(apiCall));
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 	}
@@ -75,7 +69,7 @@ public class UserController {
 		String encryptedString = new String(messageDigest.digest());
 
 		List<User> users = userRepository.findByUsernameAndPassword(username, encryptedString);
-		 return users.size() != 0;
+		return users.size() != 0;
 	}
 
 	// Gets all the user information for a username
