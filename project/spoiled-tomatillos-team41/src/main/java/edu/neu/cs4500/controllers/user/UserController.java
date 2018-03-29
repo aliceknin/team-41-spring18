@@ -86,4 +86,13 @@ public class UserController {
 		User user = userRepository.findByUsername(username).get(0);
 		userRepository.delete(user);
 	}
+
+	// Edits a user's bio
+	@RequestMapping("/api/user/edit/bio/{username}/{bio}")
+	public User editBio(@PathVariable("username") String username, @PathVariable("bio") String bio) {
+		User user = userRepository.findByUsername(username).get(0);
+		user.setBio(bio);
+		User updatedUser = userRepository.save(user);
+		return updatedUser;
+	}
 }
