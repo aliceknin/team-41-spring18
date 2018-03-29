@@ -107,6 +107,9 @@ var Profile = React.createClass({
     var newBio = document.getElementById("bioInput").value;
     console.log("ajax call to save bio");
     console.log(newBio);
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/user/edit/bio/' + this.state.loggedInUser + "/" + newBio
+      });
     this.setState({bio: newBio});
     this.hideElement("bioForm");
     this.showElement("bioDisplay");
