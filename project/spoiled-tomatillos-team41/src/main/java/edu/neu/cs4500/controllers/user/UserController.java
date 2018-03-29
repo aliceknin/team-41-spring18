@@ -37,7 +37,7 @@ public class UserController {
 			messageDigest.update(pw.getBytes());
 			String encryptedString = new String(messageDigest.digest());
 
-			User user = new User(username, encryptedString, email, fullName, false);
+			User user = new User(username, encryptedString, email, fullName, "", false);
 			userRepository.save(user);
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
@@ -85,5 +85,14 @@ public class UserController {
 	public void deleteUser(@PathVariable("username") String username) {
 		User user = userRepository.findByUsername(username).get(0);
 		userRepository.delete(user);
+	}
+
+	// Edits a user's bio
+	@RequestMapping("/api/user/edit/bio/{username}/{bio}")
+	public User editBio(@PathVariable("username") String username, @PathVariable("bio") String bio) {
+		User user = userRepository.findByUsername(username).get(0);
+		user.setBio(bio);
+		User updatedUser = userRepository.save(user);
+		return updatedUser;
 	}
 }
