@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.cs4500.controllers.logger.Logger;
+import edu.neu.cs4500.controllers.logger.LoggerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,6 @@ public class UserController {
 			User user = new User(username, encryptedString, email, fullName, false);
 			userRepository.save(user);
 			return new ResponseEntity<>(user, HttpStatus.OK);
-
 		}
 	}
 
@@ -67,7 +68,8 @@ public class UserController {
 		String encryptedString = new String(messageDigest.digest());
 
 		List<User> users = userRepository.findByUsernameAndPassword(username, encryptedString);
-		 return !users.isEmpty();
+
+		return !users.isEmpty();
 	}
 
 	// Gets all the user information for a username

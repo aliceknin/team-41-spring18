@@ -1,5 +1,7 @@
 package edu.neu.cs4500.controllers.recommendation;
 
+import edu.neu.cs4500.controllers.logger.Logger;
+import edu.neu.cs4500.controllers.logger.LoggerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +16,18 @@ public class RecommendationController {
     @Autowired
     RecommendationRepository recRepository;
 
+    @Autowired
+    LoggerRepository loggerRepository;
+
     @RequestMapping("/api/recommendation/add/{from_user_id}/{to_user_id}/{imdb_id}")
     public Recommendation addRecommendation(@PathVariable("from_user_id") int recFromUserId,
                                             @PathVariable("to_user_id") int recToUserId,
                                             @PathVariable("imdb_id") String imdbMovieId) {
         Recommendation rec = new Recommendation(recFromUserId, recToUserId, imdbMovieId);
         recRepository.save(rec);
+
+        String apiCall = "/api/recommendation/add/" + recFromUserId + "/" + recToUserId + "/" + imdbMovieId;
+        loggerRepository.save(new Logger(apiCall));
         return rec;
     }
 
