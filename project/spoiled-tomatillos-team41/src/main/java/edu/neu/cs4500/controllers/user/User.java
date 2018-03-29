@@ -15,13 +15,15 @@ public class User {
 	String password;
 	String email;
 	String fullName;
+	String bio;
 	boolean admin;
 	
-	public User(String username, String password, String email, String fullName, boolean admin) {
+	public User(String username, String password, String email, String fullName, String bio, boolean admin) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.fullName = fullName;
+		this.bio = bio;
 		this.admin = admin;
 	}
 	
@@ -64,6 +66,10 @@ public class User {
 	public String getFullName() { return fullName; }
 
 	public void setFullName(String fullName) { this.fullName = fullName; }
+
+	public String getBio() { return bio; }
+
+	public void setBio(String bio) { this.bio = bio; }
 	
 	public boolean getAdmin() { return admin; }
 	

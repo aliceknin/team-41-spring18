@@ -33,7 +33,7 @@ public class UserTest {
     @Test
     public void selectAllUserObjectsTest() throws Exception {
         User user = new User("nicolepristin", "123123", "test@gmail.com",
-                "Nicole Pristin", true);
+                "Nicole Pristin", "", true);
         Mockito.when(userRepository.findAll()).thenReturn(Collections.singletonList(user));
         assertEquals(Collections.singletonList(user), userController.selectAllUserObjects());
     }
@@ -41,7 +41,7 @@ public class UserTest {
     @Test(expected = IllegalArgumentException.class)
     public void createUserWithExistingUsernameTest() throws URISyntaxException, NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", true);
+                "Nicole Pristin", "", true);
 
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
@@ -57,7 +57,7 @@ public class UserTest {
     @Test(expected = IllegalArgumentException.class)
     public void createUserWithExistingEmailTest() throws URISyntaxException, NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", true);
+                "Nicole Pristin", "", true);
 
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
@@ -72,7 +72,7 @@ public class UserTest {
     @Test
     public void createUserTest() throws URISyntaxException, NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", false);
+                "Nicole Pristin", "", false);
 
         List<User> userResponse = new ArrayList<>();
         ResponseEntity<User> responseEntity = new ResponseEntity<>(userNicole, HttpStatus.OK);
@@ -92,7 +92,7 @@ public class UserTest {
         String encryptedString = new String(messageDigest.digest());
 
         User userNicole = new User("nicolepristin", encryptedString, "nicoletest@gmail.com",
-                "Nicole Pristin", false);
+                "Nicole Pristin", "", false);
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
 
@@ -105,7 +105,7 @@ public class UserTest {
     @Test
     public void verifyLoginFailureTest() throws NoSuchAlgorithmException {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", false);
+                "Nicole Pristin", "", false);
         List<User> userResponse = new ArrayList<>();
 
         Mockito.when(userRepository.findByUsernameAndPassword
@@ -117,7 +117,7 @@ public class UserTest {
     @Test
     public void getUserInformationTest() {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", false);
+                "Nicole Pristin", "", false);
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
 
@@ -129,7 +129,7 @@ public class UserTest {
     @Test
     public void deleteUserTest() {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", false);
+                "Nicole Pristin", "", false);
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
 
@@ -142,8 +142,8 @@ public class UserTest {
     @Test
     public void selectUsernamesContainingQueryTest() {
         User userNicole = new User("nicolepristin", "123123", "nicoletest@gmail.com",
-                "Nicole Pristin", true);
-        User userLuna = new User("lunapristin", "321321", "luna@gmail.com", "Luna Pristin", false);
+                "Nicole Pristin", "", true);
+        User userLuna = new User("lunapristin", "321321", "luna@gmail.com", "Luna Pristin", "", false);
         List<User> userResponse = new ArrayList<>();
         userResponse.add(userNicole);
         userResponse.add(userLuna);
@@ -159,9 +159,9 @@ public class UserTest {
     @Test
     public void testCreateEndAndAdminuser() {
         User endUser = new EndUser("lunapristin", "123456",
-                "luna@yahoo.com", "Luna Pristin", false);
+                "luna@yahoo.com", "Luna Pristin", "", false);
         User adminUser = new AdminUser("nicolepristin", "131313",
-                "nicoletest@aim.com", "Nicole Pristin", true);
+                "nicoletest@aim.com", "Nicole Pristin", "", true);
     }
 
     @Test

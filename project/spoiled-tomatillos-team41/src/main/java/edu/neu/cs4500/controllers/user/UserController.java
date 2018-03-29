@@ -37,7 +37,7 @@ public class UserController {
 			messageDigest.update(pw.getBytes());
 			String encryptedString = new String(messageDigest.digest());
 
-			User user = new User(username, encryptedString, email, fullName, false);
+			User user = new User(username, encryptedString, email, fullName, "", false);
 			userRepository.save(user);
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
