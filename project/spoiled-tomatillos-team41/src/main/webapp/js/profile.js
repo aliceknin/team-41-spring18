@@ -4,6 +4,7 @@ var Profile = React.createClass({
       currentUser: '',
       fullName: '',
       userID: '',
+      bio: '',
       loggedInUser: localStorage.getItem('user'),
       loggedInUserID: '',
       following: ''
@@ -13,6 +14,7 @@ var Profile = React.createClass({
     const user = this.getUsernameFromUrl();
     this.setState({currentUser : user});
     this.loadUserData(user);
+    this.hideElement("bioForm");
   },
   getUsernameFromUrl: function() {
       var queryString = window.location.search.slice(1);
@@ -32,6 +34,7 @@ var Profile = React.createClass({
     }).then(function (data) {
         self.setState({fullName: data.fullName});
         self.setState({userID: data.id});
+        self.setState({bio: data.bio});
         self.loadLoggedInData(data.id)
     });
   },
@@ -64,6 +67,7 @@ var Profile = React.createClass({
       this.hideElement("removeFriend");
     }
     else {
+      this.hideElement("editProfile");
       this.alreadyFollowing(profileID, myID);
     }
   },
@@ -89,6 +93,24 @@ var Profile = React.createClass({
         }
       });
   },
+  edit: function() {
+    if (this.state.bio == null) {
+      document.getElementById("bioInput").value = "Write your bio here!";
+    }
+    else {
+      document.getElementById("bioInput").value = this.state.bio;
+    }
+    this.showElement("bioForm");
+    this.hideElement("bioDisplay");
+  },
+  saveEdit: function() {
+    var newBio = document.getElementById("bioInput").value;
+    console.log("ajax call to save bio");
+    console.log(newBio);
+    this.setState({bio: newBio});
+    this.hideElement("bioForm");
+    this.showElement("bioDisplay");
+  },
   render: function() {
     return(
       <div className="container target">
@@ -98,6 +120,7 @@ var Profile = React.createClass({
             <div>
               <button className="btn btn-default" type='button' id='addFriend' onClick={this.follow}>Follow</button>
               <button className="btn btn-default" type='button' id='removeFriend' onClick={this.unfollow}>Unfollow</button>
+              <button className="btn btn-default" type='button' id='editProfile' onClick={this.edit}>Edit</button>
             </div>
             <br />
           </div>
@@ -125,8 +148,13 @@ var Profile = React.createClass({
           {/*/col-3*/}
           <div className="col-sm-9">
             <div className="panel panel-default">
-              <div className="panel-heading">Bio</div>
-              <div className="panel-body"> stuff
+              <div id='bio' className="panel-heading">Bio</div>
+              <div className="panel-body" id="bioDisplay">{this.state.bio}</div>
+              <div className="panel-body" id="bioForm">
+                <form>
+                  <input id="bioInput" type="text" name="profile bio" />
+                  <input id="bioSubmit" type="button" value="Submit" onClick={this.saveEdit} />
+                </form>
               </div>
             </div>
             <div className="panel panel-default">
