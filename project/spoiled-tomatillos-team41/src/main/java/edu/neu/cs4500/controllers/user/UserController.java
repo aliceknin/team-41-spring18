@@ -68,11 +68,8 @@ public class UserController {
 		String encryptedString = new String(messageDigest.digest());
 
 		List<User> users = userRepository.findByUsernameAndPassword(username, encryptedString);
-<<<<<<< HEAD
-		return users.size() != 0;
-=======
-		 return !users.isEmpty();
->>>>>>> 681ad8a621462e94e243105a5ea52e09a1d59f40
+
+		return !users.isEmpty();
 	}
 
 	// Gets all the user information for a username
