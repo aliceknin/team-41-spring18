@@ -23,7 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<sonar.coverage.exclusions>
-			src/main/webapp/js/*.js,src/main/java/edu/neu/cs4500/*.java,src/main/java/edu/neu/cs4500/controllers/logger/*.java
+			src/main/webapp/js/*.js,src/main/java/edu/neu/cs4500/*.java,src/main/java/edu/neu/cs4500/controllers/logger/*.java,src/main/java/edu/neu/cs4500/controllers/user/*.java
 		</sonar.coverage.exclusions>
 	</properties>
 
