@@ -1,0 +1,42 @@
+CS4500 Software Development
+
+------------------------------------------------
+Sprint 4 Group Grade Team 41:
+------------------------------------------------
+
+
+Functionality Expectations Achieved:
+-----------------------------------------------
+
+Use-cases (out of 4): 4
+
+Comments on use-cases: complete 4 use cases and 1 partially completed usecase (Listing followers)
+
+Comments on Functionality Expectations: Did a good job here. Storing all the API logs in a database table which presents better accessibility
+
+
+Stretches Achieved:
+-----------------------------------------------
+
+
+Stretch: More use cases demonstrated.
+Stretch: more functionality in a particular tier created during the sprint and demonstrated. Here; especially for middle or back-end tiers; showing tests against an interface could be an effective demonstration.
+
+
+
+
+Comments: Made improvements in the login functionality. Also has usecase that lists followers from the backend.
+
+
+Environment Expectations: 
+-----------------------------------------------
+
+Comments: Achieved 100% statement coverage as well as condition coverage. However; important business logic has not been tested and put under exclusions. The code is not well tested.
+
+------------------------------------------------
+Team GRADE: B-
+------------------------------------------------
+
+Extra Comments:  
+
+Grader: Amit
