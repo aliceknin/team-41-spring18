@@ -181,4 +181,20 @@ public class UserTest {
         assertEquals(user.getFullName(), "Nicole Pristin");
         assertEquals(user.getAdmin(), true);
     }
+
+    @Test
+    public void testEditUserBio() {
+        User user = new User("johndoe", "123123", "johndoe@gmail.com",
+                "John Doe", "", false);
+        User userUpdated = new User("johndoe", "123123", "johndoe@gmail.com",
+                "John Doe", "My new bio", false);
+        User any = Mockito.mock(User.class);
+
+        List<User> userResponse = new ArrayList<>();
+        userResponse.add(user);
+        Mockito.when(userRepository.findByUsername("johndoe")).thenReturn(userResponse);
+        Mockito.when(userRepository.save(any)).thenReturn(userUpdated);
+
+        assertEquals(userController.editBio("johndoe", "My new bio"), userUpdated);
+    }
 }
