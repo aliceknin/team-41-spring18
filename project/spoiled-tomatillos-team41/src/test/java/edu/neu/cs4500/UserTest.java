@@ -188,12 +188,12 @@ public class UserTest {
                 "John Doe", "", false);
         User userUpdated = new User("johndoe", "123123", "johndoe@gmail.com",
                 "John Doe", "My new bio", false);
-        User any = Mockito.mock(User.class);
 
         List<User> userResponse = new ArrayList<>();
         userResponse.add(user);
         Mockito.when(userRepository.findByUsername("johndoe")).thenReturn(userResponse);
-        Mockito.when(userRepository.save(any)).thenReturn(userUpdated);
+        user.setBio("My new bio");
+        Mockito.when(userRepository.save(user)).thenReturn(userUpdated);
 
         assertEquals(userController.editBio("johndoe", "My new bio"), userUpdated);
     }
