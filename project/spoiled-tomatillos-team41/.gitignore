@@ -1,5 +1,8 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
+node_modules/
+node/
+test-report.xml
 
 ### STS ###
 .apt_generated
