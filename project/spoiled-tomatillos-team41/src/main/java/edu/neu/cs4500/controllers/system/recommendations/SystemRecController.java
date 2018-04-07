@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 public class SystemRecController {
 
     @Autowired
-    SystemRecRepository systemRecRepository;
-
-    @Autowired
     SystemRecCalculator systemRecCalculator;
 
     @Autowired
