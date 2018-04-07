@@ -16,7 +16,7 @@ public class SystemRecCalculator {
 
     public Double[][] calculateCompleteUserMovieMatrix() {
         Double[][] userMovieMatrix = calcUserMovieMatrix();
-        Double[][] similarityMatrix = calculateMovieSimilarityMatrix();
+        Double[][] similarityMatrix = calculateMovieSimilarityMatrix(userMovieMatrix);
         int numUsers = userMovieMatrix.length;
         int numMovies = userMovieMatrix[0].length;
 
@@ -41,8 +41,7 @@ public class SystemRecCalculator {
         return userMovieMatrix;
     }
 
-    private Double[][] calculateMovieSimilarityMatrix() {
-        Double[][] userMovieMatrix = calcUserMovieMatrix();
+    private Double[][] calculateMovieSimilarityMatrix(Double[][] userMovieMatrix) {
         int numUsers = userMovieMatrix.length;
         int numMovies = userMovieMatrix[0].length;
 
@@ -73,8 +72,6 @@ public class SystemRecCalculator {
 
     private Double[][] calcUserMovieMatrix() {
         List<Review> reviews = reviewRepository.findAll();
-
-        // create the matrix of movie id x username with the rating as the value
         List<String> movies = new ArrayList<>();
         List<String> users = new ArrayList<>();
 
