@@ -40,8 +40,8 @@ public class FriendController {
         }
     }
 
-    @RequestMapping("/api/friend/select/{user_id}")
-    public List<Integer> getFriendsForUser(@PathVariable("user_id") int userId) {
+    @RequestMapping("/api/friend/select/following/{user_id}")
+    public List<Integer> getFollowingForUser(@PathVariable("user_id") int userId) {
         List<Integer> userFriends = new ArrayList<>();
 
         List<Friend> friends = friendRepository.findByUserId(userId);
@@ -53,5 +53,17 @@ public class FriendController {
         return userFriends;
     }
 
+    @RequestMapping("/api/friend/select/followers/{user_id}")
+    public List<Integer> getFollowersForUser(@PathVariable("user_id") int userId) {
+        List<Integer> userFriends = new ArrayList<>();
+
+        List<Friend> friends = friendRepository.findByFriendId(userId);
+
+        for (Friend f : friends) {
+            int id = f.getId();
+            userFriends.add(id);
+        }
+        return userFriends;
+    }
 
 }
