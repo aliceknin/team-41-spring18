@@ -1,6 +1,5 @@
 package edu.neu.cs4500.controllers.system.recommendations;
 
-import edu.neu.cs4500.SystemRecCalculator;
 import edu.neu.cs4500.controllers.review.Review;
 import edu.neu.cs4500.controllers.review.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;

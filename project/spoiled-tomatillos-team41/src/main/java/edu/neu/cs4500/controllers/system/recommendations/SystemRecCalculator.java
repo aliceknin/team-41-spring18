@@ -1,4 +1,4 @@
-package edu.neu.cs4500;
+package edu.neu.cs4500.controllers.system.recommendations;
 
 import edu.neu.cs4500.controllers.review.Review;
 import edu.neu.cs4500.controllers.review.ReviewRepository;
