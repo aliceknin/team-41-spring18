@@ -372,7 +372,7 @@ var App = React.createClass({
         var review = $('#review-text').val();
         var lastRating = lastRatingIndex + 1;
         $.ajax({
-          url: hostUrl + "/api/review/add/" + self.state.imdbID +"/" + lastRating + "/" + review + "/testUser"
+          url: hostUrl + "/api/review/add/" + self.state.imdbID +"/" + lastRating + "/" + review + "/" + localStorage.getItem('user')
         }).then(function (data) {
           console.log(self.state.reviews);
           var updatedReviews = self.state.reviews.slice();
