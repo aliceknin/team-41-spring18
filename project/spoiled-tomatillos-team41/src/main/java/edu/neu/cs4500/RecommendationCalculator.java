@@ -12,8 +12,35 @@ public class RecommendationCalculator {
     @Autowired
     ReviewRepository reviewRepository;
 
-    public Double[][] calculateMovieSimilarityMatrix() {
-        Integer[][] userMovieMatrix = getUserMovieMatrix();
+    public Double[][] calculateUserMovieMatrix() {
+        Double[][] userMovieMatrix = getUserMovieMatrix();
+        Double[][] similarityMatrix = calculateMovieSimilarityMatrix();
+        int numUsers = userMovieMatrix.length;
+        int numMovies = userMovieMatrix[0].length;
+
+        for (int i = 0; i < numUsers; i++) {
+            Double[] usersMovieRatings = userMovieMatrix[i];
+            for (int j = 0; j < numMovies; j++) {
+                if (usersMovieRatings[j] == null) {
+                    double numerator = 0;
+                    double denominator = 0;
+                    for (int k = 0; k < numMovies; k++) {
+                        if (usersMovieRatings[k] != null) {
+                            numerator += usersMovieRatings[k] * similarityMatrix[k][j];
+                            denominator += similarityMatrix[k][j];
+                        }
+                    }
+                    if (denominator != 0) {
+                        userMovieMatrix[i][j] = numerator / denominator;
+                    }
+                }
+            }
+        }
+        return userMovieMatrix;
+    }
+
+    private Double[][] calculateMovieSimilarityMatrix() {
+        Double[][] userMovieMatrix = getUserMovieMatrix();
         int numMovies = userMovieMatrix[0].length;
 
         Double[][] similarityMatrix = new Double[numMovies][numMovies];
@@ -23,8 +50,8 @@ public class RecommendationCalculator {
                     similarityMatrix[i][j] = 1.0;
                 }
                 else {
-                    Integer[] movies1 = new Integer[]{};
-                    Integer[] movies2 = new Integer[]{};
+                    Double[] movies1 = new Double[]{};
+                    Double[] movies2 = new Double[]{};
                     int count = 0;
                     for (int k = 0; k < numMovies; k++){
                         movies1[count] = userMovieMatrix[k][i];
@@ -42,7 +69,7 @@ public class RecommendationCalculator {
     }
 
 
-    private Integer[][] getUserMovieMatrix() {
+    private Double[][] getUserMovieMatrix() {
         List<Review> reviews = reviewRepository.findAll();
 
         // create the matrix of movie id x username with the rating as the value
@@ -58,7 +85,7 @@ public class RecommendationCalculator {
             }
         }
 
-        Integer[][] userMovieMatrix = new Integer[users.size()][movies.size()];
+        Double[][] userMovieMatrix = new Double[users.size()][movies.size()];
         for (int i = 0; i < users.size(); i++) {
             for (int j = 0; j < movies.size(); j++) {
                 String userId = users.get(i);
@@ -66,7 +93,7 @@ public class RecommendationCalculator {
 
                 Review review = reviewRepository.findByImdbIDAndUsername(userId, imdbID);
                 if (review != null) {
-                    int rating = review.getRating();
+                    double rating = review.getRating();
                     userMovieMatrix[i][j] = rating;
                 }
             }
@@ -74,7 +101,7 @@ public class RecommendationCalculator {
         return userMovieMatrix;
     }
 
-    private double cosineSimilarity(Integer[] vector1, Integer[] vector2) {
+    private double cosineSimilarity(Double[] vector1, Double[] vector2) {
         int vectorDotProduct = computeVectorDotProduct(vector1, vector2);
         double vectorMagnitude1 = computeVectorMagnitude(vector1);
         double vectorMagnitude2 = computeVectorMagnitude(vector2);
@@ -82,7 +109,7 @@ public class RecommendationCalculator {
         return vectorDotProduct / vectorProduct;
     }
 
-    private double computeVectorMagnitude(Integer[] vector) {
+    private double computeVectorMagnitude(Double[] vector) {
         int sum = 0;
         for (int i = 0; i < vector.length; i++) {
             sum += Math.pow(vector[i], 2);
@@ -90,7 +117,7 @@ public class RecommendationCalculator {
         return Math.sqrt(sum);
     }
 
-    private int computeVectorDotProduct(Integer[] vector1, Integer[] vector2) {
+    private int computeVectorDotProduct(Double[] vector1, Double[] vector2) {
        int sum = 0;
        for (int i = 0; i < vector1.length; i++) {
            sum += vector1[i] * vector2[i];
