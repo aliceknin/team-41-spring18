@@ -128,10 +128,13 @@ var ReviewModal = React.createClass({
                   <textarea className="form-control" id="review-text"></textarea>
                 </div>
               </form>
+              <h4 style={{'text-align': 'center', 'color': 'red'}}>{!localStorage.getItem('user') ? 'You must be logged in to review a movie.' : ''}</h4>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-primary btn-submit" onClick={this.props.modalHandler.handleSubmit} data-dismiss="modal">Post Review</button>
+              <button type="button" className="btn btn-primary btn-submit"
+                  onClick={this.props.modalHandler.handleSubmit} data-dismiss="modal"
+                  disabled={!localStorage.getItem('user')}>Post Review</button>
             </div>
           </div>
         </div>
