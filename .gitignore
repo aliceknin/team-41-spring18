@@ -6,6 +6,7 @@
 **/RemoteSystemsTempFiles/
 **/.recommenders
 **/.sonarlint
+.settings/
 
 # Compiled class file
 *.class
