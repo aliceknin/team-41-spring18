@@ -23,14 +23,18 @@ public class RecommendationCalculator {
                     similarityMatrix[i][j] = 1.0;
                 }
                 else {
-                    Integer[] movie1 = userMovieMatrix[i];
-                    Integer[] movie2 = userMovieMatrix[j];
-
-                    for (int k = 0; k < movie1.length; k++) {
-                        if (movie1[k] != null & movie2[k] != null) {
-                            similarityMatrix[i][j] = cosineSimilarity(movie1, movie2);
-                        }
+                    Integer[] movies1 = new Integer[]{};
+                    Integer[] movies2 = new Integer[]{};
+                    int count = 0;
+                    for (int k = 0; k < numMovies; k++){
+                        movies1[count] = userMovieMatrix[k][i];
+                        movies2[count] = userMovieMatrix[k][j];
+                        count += 1;
                     }
+
+                    double similarity = cosineSimilarity(movies1, movies2);
+                    similarityMatrix[i][j] = similarity;
+                    similarityMatrix[j][i] = similarity;
                 }
             }
         }
