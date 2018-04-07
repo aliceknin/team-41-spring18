@@ -43,6 +43,7 @@ public class SystemRecCalculator {
 
     private Double[][] calculateMovieSimilarityMatrix() {
         Double[][] userMovieMatrix = calcUserMovieMatrix();
+        int numUsers = userMovieMatrix.length;
         int numMovies = userMovieMatrix[0].length;
 
         Double[][] similarityMatrix = new Double[numMovies][numMovies];
@@ -54,7 +55,7 @@ public class SystemRecCalculator {
                 else if (similarityMatrix[i][j] == null || similarityMatrix[j][i] == null) {
                     List<Double> movies1 = new ArrayList<>();
                     List<Double> movies2 = new ArrayList<>();
-                    for (int k = 0; k < numMovies; k++){
+                    for (int k = 0; k < numUsers; k++){
                         if (userMovieMatrix[k][i] != null & userMovieMatrix[k][j] != null) {
                             movies1.add(userMovieMatrix[k][i]);
                             movies2.add(userMovieMatrix[k][j]);
