@@ -60,7 +60,7 @@ public class FriendController {
         List<Friend> friends = friendRepository.findByFriendId(userId);
 
         for (Friend f : friends) {
-            int id = f.getId();
+            int id = f.getUserId();
             userFriends.add(id);
         }
         return userFriends;
