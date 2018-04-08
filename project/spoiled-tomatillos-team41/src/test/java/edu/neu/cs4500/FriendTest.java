@@ -120,7 +120,7 @@ public class FriendTest {
                 .thenReturn(friends1);
 
         List<Integer> friends = friendController.getFollowersForUser(13);
-        assertEquals(friends.size(), 2);
+        assertEquals(friends.size(), 3);
         assertTrue(friends.contains(7));
         assertTrue(friends.contains(10));
         assertTrue(friends.contains(15));
