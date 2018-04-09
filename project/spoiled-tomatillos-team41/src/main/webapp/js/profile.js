@@ -7,6 +7,7 @@ var Profile = React.createClass({
       bio: '',
       loggedInUser: localStorage.getItem('user'),
       loggedInUserID: '',
+      reviews: [],
       followers: [],
       following: []
     };
@@ -28,17 +29,26 @@ var Profile = React.createClass({
           }
       }
   },
-  loadUserData: function(id) {
+  loadUserData: function(username) {
     var self = this;
     $.ajax({
-        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + id
+        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
     }).then(function (data) {
         self.setState({fullName: data.fullName});
         self.setState({userID: data.id});
         self.setState({bio: data.bio});
-        self.loadLoggedInData(data.id);
+        self.loadLoggedInData(data.id)
+        self.loadReviews(username);
         self.loadFollowers(data.id);
         self.loadFollowing(data.id);
+    });
+  },
+  loadReviews: function(username) {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/review/select/user/' + username
+    }).then(function(data) {
+        self.setState({reviews: data});
     });
   },
   loadFollowers: function(id) {
@@ -162,7 +172,7 @@ var Profile = React.createClass({
             <ul className="list-group">
               <li className="list-group-item text-muted">Activity <i className="fa fa-dashboard fa-1x" />
               </li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Reviews</strong></span> ???</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Reviews</strong></span>{this.state.reviews.length}</li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Followers</strong></span>{this.state.followers.length}</li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Following</strong></span>{this.state.following.length}</li>
             </ul>
@@ -261,11 +271,106 @@ var Profile = React.createClass({
             </div>
             <div className="panel panel-default">
               <div className="panel-heading">Reviews</div>
-              <div className="panel-body"> reviews here
+              <div className="panel-body">
+                {this.state.reviews.map(function(reviewData) {
+                    return <Review key={reviewData.id} data={reviewData}/>;
+                })}
               </div>
             </div>
           </div>
         </div>
+      </div>
+    );
+  }
+});
+
+var Review = React.createClass({
+  getInitialState: function() {
+    return {title: '', poster: ''};
+  },
+  componentDidMount: function() {
+    $.ajax({
+        url: 'http://www.omdbapi.com/?apikey=55cab600&i=' + this.props.data.imdbID,
+        success: function(movieData) {
+          this.setState({title: String(movieData.Title), poster: String(movieData.Poster)});
+        }.bind(this)
+    });
+  },
+  render: function() {
+    return (
+      <div className='row'>
+        <div className='col-sm-3'>
+          <img src={this.state.poster} alt={this.state.title} style={{width: '100%'}} />
+        </div>
+        <div className='col-sm-9'>
+          <h2><a href={'movie.html?id=' + this.props.data.imdbID}>{this.state.title}</a></h2>
+          <StarRating rating={this.props.data.rating}/>
+          <p>{this.props.data.comment}</p>
+        </div>
+      </div>
+    );
+  }
+});
+
+var Star = React.createClass({
+  render: function() {
+    var star = (this.props.value) ? "glyphicon glyphicon-star" : "glyphicon glyphicon-star-empty";
+    return (
+        <span style={{fontSize: '30px'}} className={star}/>
+    );
+  }
+});
+
+var StarRating = React.createClass({
+  getInitialState: function(props) {
+    var stars = Array(10);
+    var fixed = false;
+    if (this.props.rating) {
+      for (var i = 0; i < stars.length; i++) {
+        stars[i] = (i <= this.props.rating);
+      }
+      fixed = true;
+    } else {
+      stars.fill(false);
+    }
+    return  {stars : stars, fixedStars : stars, fixed : fixed};
+  },
+  setFillOfAllStarsUpTo: function(i, fill) {
+    const stars = this.state.stars.slice();
+    for (var curr = 0; curr <= i; curr++) {
+      stars[curr] = fill;
+    }
+    this.setState({stars : stars});
+  },
+  numberRating: function() {
+    let rating = 0;
+    for (let star of this.props.stars) {
+      if (star) {
+        rating++;
+      }
+    }
+    return rating;
+  },
+  renderStar: function(i) {
+    return (
+      <Star
+        value={this.state.stars[i]}
+      />
+    );
+  },
+  render() {
+    return (
+      <div className="starRating">
+        {this.renderStar(0)}
+        {this.renderStar(1)}
+        {this.renderStar(2)}
+        {this.renderStar(3)}
+        {this.renderStar(4)}
+        {this.renderStar(5)}
+        {this.renderStar(6)}
+        {this.renderStar(7)}
+        {this.renderStar(8)}
+        {this.renderStar(9)}
       </div>
     );
   }
