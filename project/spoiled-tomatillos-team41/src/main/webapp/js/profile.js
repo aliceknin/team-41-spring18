@@ -9,7 +9,8 @@ var Profile = React.createClass({
       loggedInUserID: '',
       reviews: [],
       followers: [],
-      following: []
+      following: [],
+      joined: ''
     };
   },
   componentDidMount: function () {
@@ -41,6 +42,7 @@ var Profile = React.createClass({
         self.loadReviews(username);
         self.loadFollowers(data.id);
         self.loadFollowing(data.id);
+        self.setState({joined: data.joined});
     });
   },
   loadReviews: function(username) {
@@ -156,8 +158,6 @@ var Profile = React.createClass({
             </div>
             <br />
           </div>
-          <div className="col-sm-2"><a href="/users" className="pull-right"><img title="profile image" className="img-circle img-responsive" src /></a>
-          </div>
         </div>
         <br />
         <div className="row">
@@ -165,8 +165,7 @@ var Profile = React.createClass({
             {/*left col*/}
             <ul className="list-group">
               <li className="list-group-item text-muted">Profile</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> ?????</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Last seen</strong></span> ?????</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> ????</li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Real name</strong></span>{this.state.fullName}</li>
             </ul>
             <ul className="list-group">

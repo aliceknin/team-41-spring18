@@ -37,27 +37,35 @@ var Login = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <div className="form-horizontal" style={{padding: 40}}>
-          <h2>Login</h2>
-          <div className="form-group">
-            <label className="control-label col-sm-2" htmlFor="email">Username:</label>
-            <div className="col-sm-10">
-              <input type="text" className="form-control" id="username" placeholder="Enter username" onChange={this.updateUsername} />
-            </div>
+        <div className="row">
+          <div className="col-sm-3">
+            <img src="https://raw.github.ccs.neu.edu/CS4500/team-41-spring18/master/logos/Logo_1.png?token=AAAOXQgZM-l4VvhZDnELwbmzY1pgA60oks5a1OrFwA%3D%3D"
+                  height="300" width="300"/>
           </div>
-          <div className="form-group">
-            <label className="control-label col-sm-2" htmlFor="pwd">Password:</label>
-            <div className="col-sm-10">
-              <input type="password" className="form-control" id="pwd" placeholder="Enter password" onChange={this.updatePassword} />
+          <div className="col-sm-7">
+            <div className="form-horizontal">
+              <h2>Login</h2>
+              <div className="form-group">
+                <label className="control-label col-sm-2" htmlFor="email">Username:</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="username" placeholder="Enter username" onChange={this.updateUsername} />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="control-label col-sm-2" htmlFor="pwd">Password:</label>
+                <div className="col-sm-10">
+                  <input type="password" className="form-control" id="pwd" placeholder="Enter password" onChange={this.updatePassword} />
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="col-sm-offset-2 col-sm-10">
+                  <button className="btn btn-default" onClick={this.login}>Submit</button>
+                </div>
+              </div>
+              <div style={{textAlign: "center"}}>
+                <h4 style={{color: "red"}}>{this.state.error}</h4>
+              </div>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
-              <button className="btn btn-default" onClick={this.login}>Submit</button>
-            </div>
-          </div>
-          <div style={{textAlign: "center"}}>
-            <h4 style={{color: "red"}}>{this.state.error}</h4>
           </div>
         </div>
       </div>
