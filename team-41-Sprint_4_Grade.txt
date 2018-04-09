@@ -34,7 +34,7 @@ Environment Expectations:
 Comments: Achieved 100% statement coverage as well as condition coverage. However; important business logic has not been tested and put under exclusions. The code is not well tested.
 
 ------------------------------------------------
-Team GRADE: B-
+Team GRADE: B+
 ------------------------------------------------
 
 Extra Comments:  
