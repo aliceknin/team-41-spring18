@@ -7,7 +7,8 @@ var Profile = React.createClass({
       bio: '',
       loggedInUser: localStorage.getItem('user'),
       loggedInUserID: '',
-      following: ''
+      followers: [],
+      following: []
     };
   },
   componentDidMount: function () {
@@ -35,7 +36,25 @@ var Profile = React.createClass({
         self.setState({fullName: data.fullName});
         self.setState({userID: data.id});
         self.setState({bio: data.bio});
-        self.loadLoggedInData(data.id)
+        self.loadLoggedInData(data.id);
+        self.loadFollowers(data.id);
+        self.loadFollowing(data.id);
+    });
+  },
+  loadFollowers: function(id) {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/followers/' + id
+    }).then(function (data) {
+        self.setState({followers: data});
+    });
+  },
+  loadFollowing: function(id) {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/following/' + id
+    }).then(function (data) {
+        self.setState({following: data});
     });
   },
   follow: function() {
@@ -83,7 +102,7 @@ var Profile = React.createClass({
     var following = false;
     var self = this;
     $.ajax({
-        url: 'http://' + window.location.hostname + ':8080/api/friend/select/' + myID
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/following/' + myID
       }).then(function (data) {
         if (data.includes(profileID)) {
           self.hideElement("addFriend");
@@ -144,8 +163,8 @@ var Profile = React.createClass({
               <li className="list-group-item text-muted">Activity <i className="fa fa-dashboard fa-1x" />
               </li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Reviews</strong></span> ???</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Friends</strong></span> ???</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Shelves</strong></span> ???</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Followers</strong></span>{this.state.followers.length}</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Following</strong></span>{this.state.following.length}</li>
             </ul>
           </div>
           {/*/col-3*/}

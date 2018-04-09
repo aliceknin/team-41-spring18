@@ -77,7 +77,7 @@ public class FriendTest {
     }
 
     @Test
-    public void getFriendsForUserTest() {
+    public void getFollowingForUserTest() {
         Friend friendYuliya = new Friend(13, 94);
         Friend friendJustin = new Friend(13, 76);
         Friend friendAlice = new Friend(47, 13);
@@ -96,12 +96,35 @@ public class FriendTest {
         Mockito.when(friendRepository.findByFriendId(13))
                 .thenReturn(friends2);
 
-        List<Integer> friends = friendController.getFriendsForUser(13);
+        List<Integer> friends = friendController.getFollowingForUser(13);
         assertEquals(friends.size(), 2);
         assertTrue(friends.contains(94));
         assertTrue(friends.contains(76));
         assertTrue(!friends.contains(47));
         assertTrue(!friends.contains(107));
+    }
+
+    @Test
+    public void getFollowersForUserTest() {
+        Friend friendYuliya = new Friend(13, 94);
+        Friend friendJustin = new Friend(7, 13);
+        Friend friendAlice = new Friend(10, 13);
+        Friend friendKathleen = new Friend(15, 13);
+
+        List<Friend> friends1 = new ArrayList<>();
+        friends1.add(friendJustin);
+        friends1.add(friendAlice);
+        friends1.add(friendKathleen);
+
+        Mockito.when(friendRepository.findByFriendId(13))
+                .thenReturn(friends1);
+
+        List<Integer> friends = friendController.getFollowersForUser(13);
+        assertEquals(friends.size(), 3);
+        assertTrue(friends.contains(7));
+        assertTrue(friends.contains(10));
+        assertTrue(friends.contains(15));
+        assertTrue(!friends.contains(94));
     }
 
     @Test
