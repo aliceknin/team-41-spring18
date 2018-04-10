@@ -84,4 +84,8 @@ public class User {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
+
+	public Date getJoined() { return joined; }
+
+	public void setJoined(Date joined) { this.joined = joined; }
 }

@@ -146,6 +146,8 @@ var Profile = React.createClass({
     this.showElement("bioDisplay");
   },
   render: function() {
+    var utc = this.state.joined;
+    var d = new Date(utc);
     return(
       <div className="container target">
         <div className="row">
@@ -165,7 +167,7 @@ var Profile = React.createClass({
             {/*left col*/}
             <ul className="list-group">
               <li className="list-group-item text-muted">Profile</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> ????</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> {this.d}</li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Real name</strong></span>{this.state.fullName}</li>
             </ul>
             <ul className="list-group">
