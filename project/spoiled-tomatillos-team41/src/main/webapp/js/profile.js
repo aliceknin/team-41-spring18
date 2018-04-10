@@ -42,7 +42,7 @@ var Profile = React.createClass({
         self.loadReviews(username);
         self.loadFollowers(data.id);
         self.loadFollowing(data.id);
-        self.setState({joined: data.joined});
+        self.setState({joined: new Date(data.joined)});
     });
   },
   loadReviews: function(username) {
@@ -146,8 +146,7 @@ var Profile = React.createClass({
     this.showElement("bioDisplay");
   },
   render: function() {
-    var utc = this.state.joined;
-    var d = new Date(utc);
+    console.log("joined " + this.state.joined);
     return(
       <div className="container target">
         <div className="row">
@@ -167,7 +166,7 @@ var Profile = React.createClass({
             {/*left col*/}
             <ul className="list-group">
               <li className="list-group-item text-muted">Profile</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> {this.d}</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> {this.state.joined}</li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Real name</strong></span>{this.state.fullName}</li>
             </ul>
             <ul className="list-group">
