@@ -197,4 +197,14 @@ public class UserTest {
 
         assertEquals(userController.editBio("johndoe", "My new bio"), userUpdated);
     }
+
+    @Test
+    public void testGetUsernameForId() {
+        User user = new User("johndoe", "123123", "johndoe@gmail.com", "John Doe", "", false);
+        List<User> userResponse = new ArrayList<>();
+        userResponse.add(user);
+        Mockito.when(userRepository.findById(10)).thenReturn(userResponse);
+
+        assertEquals("johndoe", userController.getUsername(10));
+    }
 }
