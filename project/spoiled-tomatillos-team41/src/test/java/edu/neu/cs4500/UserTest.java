@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -173,6 +174,9 @@ public class UserTest {
         user.setEmail("nicoletest@gmail.com");
         user.setFullName("Nicole Pristin");
         user.setAdmin(true);
+        user.setBio("hi");
+        Date d = new Date();
+        user.setJoined(d);
 
         assertEquals(user.getId(), 13);
         assertEquals(user.getUsername(), "nicolepristin");
@@ -180,6 +184,8 @@ public class UserTest {
         assertEquals(user.getEmail(), "nicoletest@gmail.com");
         assertEquals(user.getFullName(), "Nicole Pristin");
         assertEquals(user.getAdmin(), true);
+        assertEquals(user.getBio(), "hi");
+        assertEquals(user.getJoined(), d);
     }
 
     @Test
@@ -196,5 +202,12 @@ public class UserTest {
         Mockito.when(userRepository.save(user)).thenReturn(userUpdated);
 
         assertEquals(userController.editBio("johndoe", "My new bio"), userUpdated);
+    }
+
+    @Test
+    public void testOnCreate() {
+        User user = new User("johndoe", "123123", "johndoe@gmail.com",
+            "John Doe", "", false);
+        user.onCreate();
     }
 }
