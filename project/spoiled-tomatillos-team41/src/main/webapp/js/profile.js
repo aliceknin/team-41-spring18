@@ -11,6 +11,8 @@ var Profile = React.createClass({
       followers: [],
       following: [],
       joined: ''
+      showModal: false,
+      modalType: '',
     };
   },
   componentDidMount: function () {
@@ -145,6 +147,20 @@ var Profile = React.createClass({
     this.hideElement("bioForm");
     this.showElement("bioDisplay");
   },
+  handleFriendsClick: function(type) {
+    this.setState({showModal: true, modalType: type});
+  },
+  friendsModalHandler: function () {
+    var self = this;
+    return {
+      handleShowModal : function () {
+        self.setState({showModal : true});
+      },
+      handleHideModal : function () {
+        self.setState({showModal : false});
+      },
+    }
+  },
   render: function() {
     console.log("joined " + this.state.joined);
     return(
@@ -173,8 +189,12 @@ var Profile = React.createClass({
               <li className="list-group-item text-muted">Activity <i className="fa fa-dashboard fa-1x" />
               </li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Reviews</strong></span>{this.state.reviews.length}</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Followers</strong></span>{this.state.followers.length}</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Following</strong></span>{this.state.following.length}</li>
+              <li className="list-group-item text-right" onClick={()=>this.handleFriendsClick('Followers')} style={{'cursor': 'pointer'}}>
+                <span className="pull-left"><strong className>Followers</strong></span>{this.state.followers.length}
+              </li>
+              <li className="list-group-item text-right" onClick={()=>this.handleFriendsClick('Following')} style={{'cursor': 'pointer'}}>
+                <span className="pull-left"><strong className>Following</strong></span>{this.state.following.length}
+              </li>
             </ul>
           </div>
           {/*/col-3*/}
@@ -199,6 +219,11 @@ var Profile = React.createClass({
             </div>
           </div>
         </div>
+        {this.state.showModal ?
+            <FriendsModal modalHandler={this.friendsModalHandler()}
+                          type={this.state.modalType}
+                          data={this.state.modalType == 'Followers' ? this.state.followers : this.state.following}/>
+            : null}
       </div>
     );
   }
@@ -293,6 +318,60 @@ var StarRating = React.createClass({
         {this.renderStar(9)}
       </div>
     );
+  }
+});
+
+var FriendsModal = React.createClass({
+  componentDidMount(){
+    $(ReactDOM.findDOMNode(this)).modal('show');
+    $(ReactDOM.findDOMNode(this)).on('hidden.bs.modal', this.props.modalHandler.handleHideModal);
+  },
+  render() {
+      return (
+        <div className="modal fade">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 className="modal-title">{this.props.type}: </h4>
+              </div>
+              <div className="modal-body">
+                <ul style={{'list-style-type': 'none'}}>
+                  {this.props.data.map(function(id, index) {
+                    return <User id={id} key={index}/>;
+                  })}
+                </ul>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+});
+
+var User = React.createClass({
+  getInitialState: function() {
+      return {username: ''};
+  },
+  componentDidMount: function() {
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/user/get/username/' + this.props.id,
+        success: function(username) {
+          this.setState({username: username});
+        }.bind(this)
+    });
+  },
+  render: function() {
+    var style = {
+      'text-decoration': 'none',
+      'fontSize': '20px'
+    }
+    return (
+      <li><a href={'profile.html?username=' + this.state.username} style={style}>{this.state.username}</a></li>
+    )
   }
 });
 
