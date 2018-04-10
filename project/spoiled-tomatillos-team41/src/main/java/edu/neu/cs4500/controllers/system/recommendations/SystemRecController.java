@@ -60,7 +60,7 @@ public class SystemRecController {
                 .collect(Collectors.toList());
 
         List<String> recommendedMovies = new ArrayList<>();
-        for (int i = 0; i < sortedMovies.size(); i++) {
+        for (int i = 0; i < 5; i++) {
             String movieId = sortedMovies.get(i).getKey();
             if (reviewRepository.findByImdbIDAndUsername(movieId, username) == null) {
                 recommendedMovies.add(movieId);
