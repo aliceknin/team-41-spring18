@@ -95,4 +95,11 @@ public class UserController {
 		User updatedUser = userRepository.save(user);
 		return updatedUser;
 	}
+
+	// Gets username for a given user id
+	@RequestMapping("/api/user/get/username/{id}")
+	public String getUsername(@PathVariable("id") int id) {
+		User user = userRepository.findById(id).get(0);
+		return user.getUsername();
+	}
 }
