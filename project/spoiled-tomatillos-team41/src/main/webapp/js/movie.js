@@ -252,8 +252,6 @@ var Review = React.createClass({
       };
     },
     componentDidMount: function() {
-      console.log("hiding delete button for review by");
-      console.log(this.props.review.username);
       if (localStorage.getItem('user') != this.props.review.username) {
         document.getElementById(this.props.review.username).style.display="none";
       }
