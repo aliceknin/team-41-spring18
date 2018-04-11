@@ -10,7 +10,7 @@ var Profile = React.createClass({
       reviews: [],
       followers: [],
       following: [],
-      joined: ''
+      joined: '',
       showModal: false,
       modalType: '',
     };
@@ -37,14 +37,16 @@ var Profile = React.createClass({
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
     }).then(function (data) {
-        self.setState({fullName: data.fullName});
-        self.setState({userID: data.id});
-        self.setState({bio: data.bio});
+        self.setState({
+          fullName: data.fullName,
+          userID: data.id,
+          bio: data.bio,
+          joined: new Date(data.joined).toLocaleDateString()
+        });
         self.loadLoggedInData(data.id)
         self.loadReviews(username);
         self.loadFollowers(data.id);
         self.loadFollowing(data.id);
-        self.setState({joined: new Date(data.joined)});
     });
   },
   loadReviews: function(username) {
@@ -138,8 +140,6 @@ var Profile = React.createClass({
   },
   saveEdit: function() {
     var newBio = document.getElementById("bioInput").value;
-    console.log("ajax call to save bio");
-    console.log(newBio);
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/edit/bio/' + this.state.loggedInUser + "/" + newBio
       });
@@ -162,7 +162,6 @@ var Profile = React.createClass({
     }
   },
   render: function() {
-    console.log("joined " + this.state.joined);
     return(
       <div className="container target">
         <div className="row">
