@@ -100,7 +100,7 @@ public class SystemRecCalculator {
         return userMovieMatrix;
     }
 
-    private double cosineSimilarity(List<Double> vector1, List<Double> vector2) {
+    public double cosineSimilarity(List<Double> vector1, List<Double> vector2) {
         int vectorDotProduct = computeVectorDotProduct(vector1, vector2);
         double vectorMagnitude1 = computeVectorMagnitude(vector1);
         double vectorMagnitude2 = computeVectorMagnitude(vector2);

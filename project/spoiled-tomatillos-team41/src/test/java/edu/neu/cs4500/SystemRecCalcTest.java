@@ -3,7 +3,6 @@ package edu.neu.cs4500;
 import edu.neu.cs4500.controllers.review.Review;
 import edu.neu.cs4500.controllers.review.ReviewRepository;
 import edu.neu.cs4500.controllers.system.recommendations.SystemRecCalculator;
-import edu.neu.cs4500.controllers.system.recommendations.SystemRecController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,16 +14,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SystemRecTest {
+public class SystemRecCalcTest {
 
     @InjectMocks
-    private SystemRecController recController;
+    private SystemRecCalculator recCalculator;
     @Mock
     private ReviewRepository reviewRepository;
-    @Mock
-    private SystemRecCalculator recCalculator;
+
     @Test
-    public void testControllerMethod() throws InstantiationException {
+    public void testCosineSimilarity() {
+        List<Double> vector1 = new ArrayList<>();
+        List<Double> vector2 = new ArrayList<>();
+
+        vector1.add(2.0);
+        vector1.add(3.7);
+        vector2.add(5.8);
+        vector2.add(9.2);
+
+        recCalculator.cosineSimilarity(vector1, vector2);
+    }
+
+    @Test
+    public void testCalcUserMovieMatrix() throws InstantiationException {
         Review review1 = new Review("tt0111161", 5, "", "testUser", 0);
         Review review2 = new Review("tt2294629", 3, "", "testUser", 0);
         Review review3 = new Review("tt1130884", 2, "", "testUser", 0);
@@ -42,23 +53,6 @@ public class SystemRecTest {
         reviews.add(review6);
         reviews.add(review7);
 
-        Double[][] userMovieMatrix = new Double[4][7];
-        userMovieMatrix[0][0] = 5.0;
-        userMovieMatrix[0][1] = 3.0;
-        userMovieMatrix[0][2] = 3.0;
-        userMovieMatrix[1][0] = 4.0;
-        userMovieMatrix[1][1] = 7.0;
-        userMovieMatrix[1][2] = 5.3;
-        userMovieMatrix[2][0] = 7.0;
-        userMovieMatrix[2][2] = 8.0;
-        userMovieMatrix[0][3] = 6.0;
-        userMovieMatrix[0][4] = 8.0;
-        userMovieMatrix[0][5] = 8.0;
-        userMovieMatrix[0][6] = 7.0;
-        userMovieMatrix[3][6] = 8.0;
-
-        Mockito.when(recCalculator.calculateCompleteUserMovieMatrix())
-                .thenReturn(userMovieMatrix);
         Mockito.when(reviewRepository.findAll()).thenReturn(reviews);
         Mockito.when(reviewRepository.findByImdbIDAndUsername("tt0111161", "testUser"))
                 .thenReturn(review1);
@@ -75,12 +69,7 @@ public class SystemRecTest {
         Mockito.when(reviewRepository.findByImdbIDAndUsername("tt1130884", "thirdTestUser"))
                 .thenReturn(review7);
 
-        Mockito.when(reviewRepository.findByImdbIDAndUsername("tt1130884", "anotherTestUser"))
-                .thenReturn(null);
-        Mockito.when(reviewRepository.findByImdbIDAndUsername("tt2294629", "thirdTestUser"))
-                .thenReturn(null);
+        recCalculator.calculateCompleteUserMovieMatrix();
 
-        recController.getSystemRecommendationsForUser("anotherTestUser");
-        recController.getSystemRecommendationsForUser("nicole pristin");
     }
 }
