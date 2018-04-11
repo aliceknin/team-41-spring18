@@ -251,6 +251,13 @@ var Review = React.createClass({
         upvotes: this.props.review.upvotes
       };
     },
+    componentDidMount: function() {
+      console.log("hiding delete button for review by");
+      console.log(this.props.review.username);
+      if (localStorage.getItem('user') != this.props.review.username) {
+        document.getElementById(this.props.review.username).style.display="none";
+      }
+    },
     handleDelete() {
         var self = this;
         var reviewId = this.props.review.id;
@@ -288,7 +295,7 @@ var Review = React.createClass({
             <td>{this.props.review.comment}</td>
             <td>{this.state.upvotes}</td>
             <td>
-                <button className="btn btn-info" onClick={this.handleDelete}>Delete</button>
+                <button id={this.props.review.username} className="btn btn-info" onClick={this.handleDelete}>Delete</button>
             </td>
             <td>
                 <button className="btn btn-info" onClick={this.handleUpvote}>Upvote</button>
@@ -354,13 +361,11 @@ var App = React.createClass({
   },
   loadReviewsFromServer: function (id) {
     var self = this;
-    console.log(hostUrl);
     $.ajax({
         url: hostUrl + "/api/review/select/" + id
     }).then(function (data) {
         self.setState({reviews: data});
     });
-    console.log("reviews loaded");
   },
   reviewModalHandler: function () {
     var self = this;
@@ -377,13 +382,10 @@ var App = React.createClass({
         $.ajax({
           url: hostUrl + "/api/review/add/" + self.state.imdbID +"/" + lastRating + "/" + review + "/" + localStorage.getItem('user')
         }).then(function (data) {
-          console.log(self.state.reviews);
           var updatedReviews = self.state.reviews.slice();
           updatedReviews.push(data);
           self.setState({reviews : updatedReviews});
-          console.log(self.state.reviews);
         });
-        console.log("review submimtted and loaded");
       }
     }
   },
