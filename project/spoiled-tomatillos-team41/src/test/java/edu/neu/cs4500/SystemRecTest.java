@@ -33,6 +33,12 @@ public class SystemRecTest {
         Review review6 = new Review("tt0111161", 7, "", "thirdTestUser", 0);
         Review review7 = new Review("tt1130884", 8, "", "thirdTestUser", 0);
 
+        Review review8 = new Review("sddlgjksl", 6, "", "testUser", 0);
+        Review review9 = new Review("sfekjjfk", 8, "", "testUser", 0);
+        Review review10 = new Review("oigspdoi", 8, "", "testUser", 0);
+        Review review11 = new Review("moviemovie", 7, "", "testUser", 0);
+        Review review12 = new Review("moviemovie", 8, "", "reviewedonlyone", 0);
+
         List<Review> reviews = new ArrayList<>();
         reviews.add(review1);
         reviews.add(review2);
@@ -42,14 +48,20 @@ public class SystemRecTest {
         reviews.add(review6);
         reviews.add(review7);
 
-        Double[][] userMovieMatrix = new Double[3][3];
+        Double[][] userMovieMatrix = new Double[4][7];
         userMovieMatrix[0][0] = 5.0;
         userMovieMatrix[0][1] = 3.0;
         userMovieMatrix[0][2] = 3.0;
         userMovieMatrix[1][0] = 4.0;
         userMovieMatrix[1][1] = 7.0;
+        userMovieMatrix[1][2] = 5.3;
         userMovieMatrix[2][0] = 7.0;
         userMovieMatrix[2][2] = 8.0;
+        userMovieMatrix[0][3] = 6.0;
+        userMovieMatrix[0][4] = 8.0;
+        userMovieMatrix[0][5] = 8.0;
+        userMovieMatrix[0][6] = 7.0;
+        userMovieMatrix[3][6] = 8.0;
 
         Mockito.when(recCalculator.calculateCompleteUserMovieMatrix())
                 .thenReturn(userMovieMatrix);
@@ -69,9 +81,12 @@ public class SystemRecTest {
         Mockito.when(reviewRepository.findByImdbIDAndUsername("tt1130884", "thirdTestUser"))
                 .thenReturn(review7);
 
-        recController.getSystemRecommendationsForUser("testUser");
+        Mockito.when(reviewRepository.findByImdbIDAndUsername("tt1130884", "anotherTestUser"))
+                .thenReturn(null);
+        Mockito.when(reviewRepository.findByImdbIDAndUsername("tt2294629", "thirdTestUser"))
+                .thenReturn(null);
 
-
-
+        recController.getSystemRecommendationsForUser("anotherTestUser");
+        recController.getSystemRecommendationsForUser("nicole pristin");
     }
 }
