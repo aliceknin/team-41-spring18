@@ -153,6 +153,10 @@ var Rec = React.createClass({
             toUserID: ''
           };
     },
+    componentDidMount: function () {
+        this.hideElement("success");
+        this.hideElement("fail");
+    },
     getFromUserID: function() {
       var self = this;
       $.ajax({
@@ -172,6 +176,14 @@ var Rec = React.createClass({
           $('.dropdown-toggle').dropdown('toggle');
         }
     },
+    hideElement: function(elementID) {
+        var x = document.getElementById(elementID);
+        x.style.display="none";
+    },
+    showElement: function(elementID) {
+        var x = document.getElementById(elementID);
+        x.style.display="block";
+    },
     createAPI: function(username) {
         var self = this;
         this.getFromUserID();
@@ -182,6 +194,12 @@ var Rec = React.createClass({
           var recAPI = 'http://' + window.location.hostname + ':8080/api/recommendation/add/' + self.state.fromUserID + '/' + id + '/' + self.props.movieID;
           $.ajax({
             url: recAPI
+          }).done(function(result) {
+            console.log("reached success");
+            self.showElement("success");
+          }).fail(function(result) {
+            console.log("reached fail");
+            self.showElement("fail");
           });
         });
     },
@@ -215,6 +233,14 @@ var Rec = React.createClass({
                 return <li className="dropdown-item" key={index} onClick={this.createAPI.bind(this, result.text)}>{result.text}</li>;
               }, this)}
           </ul>
+          <div className="alert alert-success alert-dismissible" id="success">
+              <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Success!</strong> Recommendation sent.
+          </div>
+          <div className="alert alert-danger alert-dismissible" id="fail">
+              <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Recommendation failed to send. </strong>Please try again.
+          </div>
        </div>
       );
     }
