@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+
 public class SystemRecController {
 
     @Autowired
@@ -60,18 +61,17 @@ public class SystemRecController {
                 .collect(Collectors.toList());
 
         List<String> recommendedMovies = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        int count = 0;
+        for (int i = 0; i < movies.size(); i++) {
             String movieId = sortedMovies.get(i).getKey();
             if (reviewRepository.findByImdbIDAndUsername(movieId, username) == null) {
                 recommendedMovies.add(movieId);
+                count += 1;
+            }
+            if (count == 5) {
+                break;
             }
         }
         return recommendedMovies;
-    }
-
-    // just a test endpoint, won't actually use this
-    @RequestMapping("/api/system/recommendations/test")
-    public Double[][] getAllSystemRecommendations() {
-        return systemRecCalculator.calculateCompleteUserMovieMatrix();
     }
 }
