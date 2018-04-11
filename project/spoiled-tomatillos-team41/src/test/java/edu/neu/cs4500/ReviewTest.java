@@ -115,6 +115,21 @@ public class ReviewTest {
     }
 
     @Test
+    public void testGetReviewsForUser() throws InstantiationException {
+        Review review1 = new Review("777777", 10, "Best movie ever", "johndoe", 0);
+        Review review2 = new Review("123456", 5, "Average", "johndoe", 0);
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(review1);
+        reviews.add(review2);
+
+        ResponseEntity<List<Review>> responseEntity = new ResponseEntity<>(reviews, HttpStatus.OK);
+        Mockito.when(reviewRepository.findByUsername("johndoe")).thenReturn(responseEntity.getBody());
+
+        List<Review> revs = reviewController.getReviewsForUser("johndoe");
+        assertEquals(revs.size(), reviews.size());
+    }
+
+    @Test
     public void testGettersSetters() throws InstantiationException {
         Review rev1 = new Review();
 

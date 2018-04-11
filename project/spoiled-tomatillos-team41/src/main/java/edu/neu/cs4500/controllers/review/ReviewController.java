@@ -52,4 +52,10 @@ public class ReviewController {
         reviewRepository.save(review);
         return ResponseEntity.ok(review);
     }
+
+    // Returns all the reviews submitted by the given user
+    @RequestMapping("/api/review/select/user/{username}")
+    public List<Review> getReviewsForUser(@PathVariable("username") String username) {
+        return reviewRepository.findByUsername(username);
+    }
 }

@@ -7,7 +7,11 @@ var Profile = React.createClass({
       bio: '',
       loggedInUser: localStorage.getItem('user'),
       loggedInUserID: '',
-      following: ''
+      reviews: [],
+      followers: [],
+      following: [],
+      showModal: false,
+      modalType: '',
     };
   },
   componentDidMount: function () {
@@ -27,15 +31,42 @@ var Profile = React.createClass({
           }
       }
   },
-  loadUserData: function(id) {
+  loadUserData: function(username) {
     var self = this;
     $.ajax({
-        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + id
+        url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
     }).then(function (data) {
         self.setState({fullName: data.fullName});
         self.setState({userID: data.id});
         self.setState({bio: data.bio});
         self.loadLoggedInData(data.id)
+        self.loadReviews(username);
+        self.loadFollowers(data.id);
+        self.loadFollowing(data.id);
+    });
+  },
+  loadReviews: function(username) {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/review/select/user/' + username
+    }).then(function(data) {
+        self.setState({reviews: data});
+    });
+  },
+  loadFollowers: function(id) {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/followers/' + id
+    }).then(function (data) {
+        self.setState({followers: data});
+    });
+  },
+  loadFollowing: function(id) {
+    var self = this;
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/following/' + id
+    }).then(function (data) {
+        self.setState({following: data});
     });
   },
   follow: function() {
@@ -83,7 +114,7 @@ var Profile = React.createClass({
     var following = false;
     var self = this;
     $.ajax({
-        url: 'http://' + window.location.hostname + ':8080/api/friend/select/' + myID
+        url: 'http://' + window.location.hostname + ':8080/api/friend/select/following/' + myID
       }).then(function (data) {
         if (data.includes(profileID)) {
           self.hideElement("addFriend");
@@ -114,6 +145,20 @@ var Profile = React.createClass({
     this.hideElement("bioForm");
     this.showElement("bioDisplay");
   },
+  handleFriendsClick: function(type) {
+    this.setState({showModal: true, modalType: type});
+  },
+  friendsModalHandler: function () {
+    var self = this;
+    return {
+      handleShowModal : function () {
+        self.setState({showModal : true});
+      },
+      handleHideModal : function () {
+        self.setState({showModal : false});
+      },
+    }
+  },
   render: function() {
     return(
       <div className="container target">
@@ -143,9 +188,13 @@ var Profile = React.createClass({
             <ul className="list-group">
               <li className="list-group-item text-muted">Activity <i className="fa fa-dashboard fa-1x" />
               </li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Reviews</strong></span> ???</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Friends</strong></span> ???</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Shelves</strong></span> ???</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Reviews</strong></span>{this.state.reviews.length}</li>
+              <li className="list-group-item text-right" onClick={()=>this.handleFriendsClick('Followers')} style={{'cursor': 'pointer'}}>
+                <span className="pull-left"><strong className>Followers</strong></span>{this.state.followers.length}
+              </li>
+              <li className="list-group-item text-right" onClick={()=>this.handleFriendsClick('Following')} style={{'cursor': 'pointer'}}>
+                <span className="pull-left"><strong className>Following</strong></span>{this.state.following.length}
+              </li>
             </ul>
           </div>
           {/*/col-3*/}
@@ -161,94 +210,168 @@ var Profile = React.createClass({
               </div>
             </div>
             <div className="panel panel-default">
-              <div className="panel-heading">Shelves</div>
-              <div className="panel-body">
-                <div id="recommendedCarousel" className="carousel slide" data-ride="carousel">
-                  <div className="carousel-inner row w-100 mx-auto">
-                    <div className="carousel-item col-md-2 active">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/f44242/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item col-md-2">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/418cf4/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item col-md-2">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/3ed846/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item col-md-2">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/42ebf4/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item col-md-2">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/f49b41/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item col-md-2">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/f4f141/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item col-md-2">
-                      <div className="card">
-                        <img className="card-img-top img-fluid" src="http://placehold.it/200x300/8e41f4/fff" alt="Card image cap" />
-                        <div className="card-body">
-                          <h4 className="card-title">Title of Movie</h4>
-                          <p className="card-text">maybe a description or something, possibly a snippet of the plot or actors or critic reviews</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <a className="carousel-control-prev" href="#recommendedCarousel" role="button" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true" />
-                    <span className="sr-only">Previous</span>
-                  </a>
-                  <a className="carousel-control-next" href="#recommendedCarousel" role="button" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true" />
-                    <span className="sr-only">Next</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="panel panel-default">
               <div className="panel-heading">Reviews</div>
-              <div className="panel-body"> reviews here
+              <div className="panel-body">
+                {this.state.reviews.map(function(reviewData) {
+                    return <Review key={reviewData.id} data={reviewData}/>;
+                })}
               </div>
             </div>
           </div>
         </div>
+        {this.state.showModal ?
+            <FriendsModal modalHandler={this.friendsModalHandler()}
+                          type={this.state.modalType}
+                          data={this.state.modalType == 'Followers' ? this.state.followers : this.state.following}/>
+            : null}
       </div>
     );
+  }
+});
+
+var Review = React.createClass({
+  getInitialState: function() {
+    return {title: '', poster: ''};
+  },
+  componentDidMount: function() {
+    $.ajax({
+        url: 'http://www.omdbapi.com/?apikey=55cab600&i=' + this.props.data.imdbID,
+        success: function(movieData) {
+          this.setState({title: String(movieData.Title), poster: String(movieData.Poster)});
+        }.bind(this)
+    });
+  },
+  render: function() {
+    return (
+      <div className='row'>
+        <div className='col-sm-3'>
+          <img src={this.state.poster} alt={this.state.title} style={{width: '100%'}} />
+        </div>
+        <div className='col-sm-9'>
+          <h2><a href={'movie.html?id=' + this.props.data.imdbID}>{this.state.title}</a></h2>
+          <StarRating rating={this.props.data.rating}/>
+          <p>{this.props.data.comment}</p>
+        </div>
+      </div>
+    );
+  }
+});
+
+var Star = React.createClass({
+  render: function() {
+    var star = (this.props.value) ? "glyphicon glyphicon-star" : "glyphicon glyphicon-star-empty";
+    return (
+        <span style={{fontSize: '30px'}} className={star}/>
+    );
+  }
+});
+
+var StarRating = React.createClass({
+  getInitialState: function(props) {
+    var stars = Array(10);
+    var fixed = false;
+    if (this.props.rating) {
+      for (var i = 0; i < stars.length; i++) {
+        stars[i] = (i <= this.props.rating);
+      }
+      fixed = true;
+    } else {
+      stars.fill(false);
+    }
+    return  {stars : stars, fixedStars : stars, fixed : fixed};
+  },
+  setFillOfAllStarsUpTo: function(i, fill) {
+    const stars = this.state.stars.slice();
+    for (var curr = 0; curr <= i; curr++) {
+      stars[curr] = fill;
+    }
+    this.setState({stars : stars});
+  },
+  numberRating: function() {
+    let rating = 0;
+    for (let star of this.props.stars) {
+      if (star) {
+        rating++;
+      }
+    }
+    return rating;
+  },
+  renderStar: function(i) {
+    return (
+      <Star
+        value={this.state.stars[i]}
+      />
+    );
+  },
+  render() {
+    return (
+      <div className="starRating">
+        {this.renderStar(0)}
+        {this.renderStar(1)}
+        {this.renderStar(2)}
+        {this.renderStar(3)}
+        {this.renderStar(4)}
+        {this.renderStar(5)}
+        {this.renderStar(6)}
+        {this.renderStar(7)}
+        {this.renderStar(8)}
+        {this.renderStar(9)}
+      </div>
+    );
+  }
+});
+
+var FriendsModal = React.createClass({
+  componentDidMount(){
+    $(ReactDOM.findDOMNode(this)).modal('show');
+    $(ReactDOM.findDOMNode(this)).on('hidden.bs.modal', this.props.modalHandler.handleHideModal);
+  },
+  render() {
+      return (
+        <div className="modal fade">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 className="modal-title">{this.props.type}: </h4>
+              </div>
+              <div className="modal-body">
+                <ul style={{'list-style-type': 'none'}}>
+                  {this.props.data.map(function(id, index) {
+                    return <User id={id} key={index}/>;
+                  })}
+                </ul>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+});
+
+var User = React.createClass({
+  getInitialState: function() {
+      return {username: ''};
+  },
+  componentDidMount: function() {
+    $.ajax({
+        url: 'http://' + window.location.hostname + ':8080/api/user/get/username/' + this.props.id,
+        success: function(username) {
+          this.setState({username: username});
+        }.bind(this)
+    });
+  },
+  render: function() {
+    var style = {
+      'text-decoration': 'none',
+      'fontSize': '20px'
+    }
+    return (
+      <li><a href={'profile.html?username=' + this.state.username} style={style}>{this.state.username}</a></li>
+    )
   }
 });
 

@@ -62,7 +62,10 @@ var NavBar = React.createClass({
               <span className="icon-bar" />
               <span className="icon-bar" />
             </button>
-            <a className="navbar-brand" href="index.html">Spoiled Tomatillos</a>
+            <a className="navbar-brand" href="index.html"><p>
+              <img src="https://raw.github.ccs.neu.edu/CS4500/team-41-spring18/master/logos/Logo_2.png?token=AAAOXW-q2pzXJQq290h4a8jC4CmJBxLkks5ay9jBwA%3D%3D"
+                    width="40" height="40" /></p>
+            </a>
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <div className="navbar-form navbar-left">
