@@ -10,6 +10,7 @@ var Profile = React.createClass({
       reviews: [],
       followers: [],
       following: [],
+      joined: '',
       showModal: false,
       modalType: '',
     };
@@ -36,9 +37,12 @@ var Profile = React.createClass({
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/info/' + username
     }).then(function (data) {
-        self.setState({fullName: data.fullName});
-        self.setState({userID: data.id});
-        self.setState({bio: data.bio});
+        self.setState({
+          fullName: data.fullName,
+          userID: data.id,
+          bio: data.bio,
+          joined: new Date(data.joined).toLocaleDateString()
+        });
         self.loadLoggedInData(data.id)
         self.loadReviews(username);
         self.loadFollowers(data.id);
@@ -136,8 +140,6 @@ var Profile = React.createClass({
   },
   saveEdit: function() {
     var newBio = document.getElementById("bioInput").value;
-    console.log("ajax call to save bio");
-    console.log(newBio);
     $.ajax({
         url: 'http://' + window.location.hostname + ':8080/api/user/edit/bio/' + this.state.loggedInUser + "/" + newBio
       });
@@ -172,8 +174,6 @@ var Profile = React.createClass({
             </div>
             <br />
           </div>
-          <div className="col-sm-2"><a href="/users" className="pull-right"><img title="profile image" className="img-circle img-responsive" src /></a>
-          </div>
         </div>
         <br />
         <div className="row">
@@ -181,8 +181,7 @@ var Profile = React.createClass({
             {/*left col*/}
             <ul className="list-group">
               <li className="list-group-item text-muted">Profile</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> ?????</li>
-              <li className="list-group-item text-right"><span className="pull-left"><strong className>Last seen</strong></span> ?????</li>
+              <li className="list-group-item text-right"><span className="pull-left"><strong className>Joined</strong></span> {this.state.joined}</li>
               <li className="list-group-item text-right"><span className="pull-left"><strong className>Real name</strong></span>{this.state.fullName}</li>
             </ul>
             <ul className="list-group">

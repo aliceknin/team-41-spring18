@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
+import javax.persistence.PrePersist;
 
 @Entity(name="user")
 public class User {
@@ -17,6 +19,7 @@ public class User {
 	String fullName;
 	String bio;
 	boolean admin;
+	Date joined;
 	
 	public User(String username, String password, String email, String fullName, String bio, boolean admin) {
 		this.username = username;
@@ -30,7 +33,12 @@ public class User {
 	public User() {
 		
 	}
-	
+
+  @PrePersist
+  public void onCreate() {
+    joined = new Date();
+  }
+
 	public int getId() {
 		return id;
 	}
@@ -76,4 +84,8 @@ public class User {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
+
+	public Date getJoined() { return joined; }
+
+	public void setJoined(Date joined) { this.joined = joined; }
 }
