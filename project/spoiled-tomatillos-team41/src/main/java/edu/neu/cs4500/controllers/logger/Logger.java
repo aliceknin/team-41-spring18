@@ -22,12 +22,12 @@ public class Logger {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         created = new Date();
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         updated = new Date();
     }
 
