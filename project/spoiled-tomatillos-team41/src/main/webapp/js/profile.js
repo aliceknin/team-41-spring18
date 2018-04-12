@@ -170,7 +170,6 @@ var Profile = React.createClass({
             <div>
               <button className="btn btn-default" type='button' id='addFriend' onClick={this.follow}>Follow</button>
               <button className="btn btn-default" type='button' id='removeFriend' onClick={this.unfollow}>Unfollow</button>
-              <button className="btn btn-default" type='button' id='editProfile' onClick={this.edit}>Edit</button>
             </div>
             <br />
           </div>
@@ -199,7 +198,9 @@ var Profile = React.createClass({
           {/*/col-3*/}
           <div className="col-sm-9">
             <div className="panel panel-default">
-              <div id='bio' className="panel-heading">Bio</div>
+              <div id='bio' className="panel-heading">Bio
+              <button className="btn btn-primary pull-right btn-xs" type='button' id='editProfile' onClick={this.edit}><span className="glyphicon glyphicon-edit" /> Edit</button>
+              </div>
               <div className="panel-body" id="bioDisplay">{this.state.bio}</div>
               <div className="panel-body" id="bioForm">
                 <form>
