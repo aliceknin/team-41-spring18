@@ -75,7 +75,7 @@ var NavBar = React.createClass({
                       value={this.state.searchInput} onChange={this.updateSearchInput}
                       onKeyPress={this.handleKeyPress} />
                 </div>
-                <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}>Submit</button>
+                <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}><span className="glyphicon glyphicon-search" />Search</button>
                 <ul className="dropdown-menu">
                   <li className="dropdown-item">Movies:</li>
                   {this.state.movieResults.map(function(result, index) {
