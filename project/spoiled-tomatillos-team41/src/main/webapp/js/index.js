@@ -15,7 +15,7 @@ var RecCard = React.createClass({
       return <p>Loading...</p>;
     }
     return (
-      <div className="carousel-item col-md-2">
+      <div className="carousel-item col-md-2 col-sm-4 col-xs-12">
         <div className="card">
           <img className="card-img-top img-fluid" src={this.state.movieData.Poster} height="300"/>
           <div className="card-body">
@@ -43,13 +43,15 @@ var RecList = React.createClass({
       self.setState({recs: data});
     });
   },
-  render: function() {
+  renderRecs: function() {
     var self = this;
-    return (
-      <div id="recommendedCarousel" className="carousel slide" data-ride="carousel">
-        <h1>{this.props.title}</h1>
+    if (self.state.recs.length == 0) {
+      return <p>Start reviewing some movies and following some friends to get recommendations.</p>
+    } else {
+      return (
+        <div>
         <div className="carousel-inner row w-100 mx-auto">
-          {this.state.recs.map(function(rec) {
+          {self.state.recs.map(function(rec) {
             return self.props.renderRec(rec);
           })}
         </div>
@@ -61,6 +63,16 @@ var RecList = React.createClass({
           <span className="carousel-control-next-icon" aria-hidden="true"></span>
           <span className="sr-only">Next</span>
         </a>
+        </div>
+      )
+    }
+  },
+  render: function() {
+    var self = this;
+    return (
+      <div id="recommendedCarousel" className="carousel slide" data-ride="carousel">
+        <h1>{this.props.title}</h1>
+        {self.renderRecs()}
       </div>
     )
   }
@@ -99,6 +111,7 @@ var SystemAndUserRecLists = React.createClass({
     if (!this.state.user) {
       return (
         <div className="container text-center">
+          <Explore/>
           <h1>Like movies?</h1>
           <h4>Join us to start receiving recommendations based on your taste! Make friends, read reviews, blah blah blah</h4>
           <a href="createUser.html" className="btn btn-primary btn-lg">SIGN UP</a>
@@ -114,6 +127,9 @@ var SystemAndUserRecLists = React.createClass({
     var systemRecURL = "/api/system/recommendations/" + this.state.user
     return (
       <div className="container-fluid">
+        <div className="container">
+          <Explore/>
+        </div>
         <RecList url={systemRecURL} renderRec={this.renderSystemRec} title="We think you'll like..."/>
         <RecList url={userRecURL} renderRec={this.renderUserRec} title="Your friends think you'll like..."/>
       </div>
@@ -126,7 +142,8 @@ var Explore = React.createClass({
     return {
       searchInput: '',
       movieResults: [],
-      userResults: []
+      userResults: [],
+      focused: false
     };
   },
   updateSearchInput: function(evt) {
@@ -165,19 +182,28 @@ var Explore = React.createClass({
     });
   },
   handleKeyPress: function(evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === 'Enter' && this.state.focused) {
       this.search();
-      $('.dropdown-toggle').dropdown('toggle');
+      $('.dropdown-explore-toggle').dropdown('toggle');
     }
   },
+  onBlur: function() {
+    this.setState({ focused: false })
+  },
+  onFocus: function() {
+    this.setState({ focused: true })
+} ,
   render: function() {
     return (
-      <div className="input-group">
-        <input type="text" className="form-control" placeholder="Search"
+      <div className="container-fluid text-center">
+      <h2>Explore</h2>
+      <div className="input-group explore">
+        <input type="text" className="form-control" placeholder="Search for movies or users..."
             value={this.state.searchInput} onChange={this.updateSearchInput}
+            onFocus={this.onFocus} onBlur={this.onBlur}
             onKeyPress={this.handleKeyPress}/>
         <div className="input-group-btn dropdown">
-          <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}><span className="glyphicon glyphicon-search"></span></button>
+          <button className="btn btn-default dropdown-explore-toggle" data-toggle="dropdown" id="search" onClick={this.search}><span className="glyphicon glyphicon-search"></span></button>
           <ul className="dropdown-menu">
             <li className="dropdown-item">Movies:</li>
             {this.state.movieResults.map(function(result, index) {
@@ -189,6 +215,7 @@ var Explore = React.createClass({
             })}
           </ul>
         </div>
+      </div>
       </div>
     )
   }
