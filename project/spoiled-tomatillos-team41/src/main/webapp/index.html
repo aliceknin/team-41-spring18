@@ -16,6 +16,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/Style.css">
 <link rel="stylesheet" type="text/css" href="css/homepage.css">
+<link rel="stylesheet" type="text/css" href="css/recommendedCarousel.css">
 
 <script src="https://fb.me/react-15.0.1.js"></script>
 <script src="https://fb.me/react-dom-15.0.1.js"></script>
@@ -29,7 +30,6 @@
 <div id='navbar'></div>
 <script type="text/babel" src="js/navbar.js"></script>
 
-<div class="jumbotron">
   <div id="home-carousel" class="carousel fade">
     <!--Indicators-->
     <ol class="carousel-indicators">
@@ -39,12 +39,12 @@
     <!--Slideshow Elements-->
     <div class="carousel-inner">
       <div class="item active carousel-1">
-        <div class="carousel-caption">
+        <div class="carousel-caption main-title">
           <h1>Spoiled Tomatillos</h1>
         </div>
       </div>
       <div class="item carousel-2">
-        <div class="carousel-caption">
+        <div class="carousel-caption main-title">
           <h1>Spoiled Tomatillos</h1>
         </div>
       </div>
@@ -53,6 +53,8 @@
     <a class="left carousel-control" href="#home-carousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
     <a class="right carousel-control" href="#home-carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>
-</div>
+
+<div id="rec-lists"></div>
+<script type="text/babel" src="js/index.js"></script>
 </body>
 </html>

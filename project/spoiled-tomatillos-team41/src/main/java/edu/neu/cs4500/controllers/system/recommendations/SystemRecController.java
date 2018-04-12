@@ -64,7 +64,7 @@ public class SystemRecController {
         int count = 0;
         for (int i = 0; i < movies.size(); i++) {
             String movieId = sortedMovies.get(i).getKey();
-            if (count <= 5 & reviewRepository.findByImdbIDAndUsername(movieId, username) == null) {
+            if (count <= 5 && reviewRepository.findByImdbIDAndUsername(movieId, username) == null) {
                 recommendedMovies.add(movieId);
                 count += 1;
             }
