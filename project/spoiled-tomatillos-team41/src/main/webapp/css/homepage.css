@@ -39,3 +39,7 @@
   -webkit-background-size: cover;
   background-size: cover;
 }
+
+.main-title h1 {
+  font-size: 63px;
+}

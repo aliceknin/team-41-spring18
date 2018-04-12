@@ -74,27 +74,39 @@ var SystemAndUserRecLists = React.createClass({
     }
   },
   componentDidMount: function() {
-    var self = this;
-    $.ajax({
-      url: 'http://' + window.location.hostname + ':8080' + "/api/user/info/" + self.state.user
-    }).then(function(data) {
-      self.setState({userID: data.id});
-    })
+    if (this.state.user) {
+      var self = this;
+      $.ajax({
+        url: 'http://' + window.location.hostname + ':8080' + "/api/user/info/" + self.state.user
+      }).then(function(data) {
+        self.setState({userID: data.id});
+      })
+    }
   },
   renderSystemRec: function(id) {
     return <RecCard id={id} key={id}/>;
   },
   renderUserRec: function (rec) {
+    var text = "Recommended by " + rec.recFromUserId;
     /*$.ajax({
       url: 'http://' + window.location.hostname + ':8080' + "/api/user/get/username/" + rec.recFromUserId
     }).then(function(data) {
       var text = "Recommended by " + data;
-      return <RecCard id={rec.imdbmovieId} key={rec.imdbmovieId} text={text}/>
     });*/
-    var text = "Recommended by " + rec.recFromUserId;
     return <RecCard id={rec.imdbmovieId} key={rec.imdbmovieId} text={text}/>
   },
   render: function() {
+    if (!this.state.user) {
+      return (
+        <div className="container text-center">
+          <h1>Like movies?</h1>
+          <h4>Join us to start receiving recommendations based on your taste! Make friends, read reviews, blah blah blah</h4>
+          <a href="createUser.html" className="btn btn-primary btn-lg">SIGN UP</a>
+          <h4>Already have an account?</h4>
+          <a href="login.html" className="btn btn-default btn-lg">Log In</a>
+        </div>
+      )
+    }
     if (!this.state.userID) {
       return <p>Loading...</p>;
     }
@@ -104,6 +116,79 @@ var SystemAndUserRecLists = React.createClass({
       <div className="container-fluid">
         <RecList url={systemRecURL} renderRec={this.renderSystemRec} title="We think you'll like..."/>
         <RecList url={userRecURL} renderRec={this.renderUserRec} title="Your friends think you'll like..."/>
+      </div>
+    )
+  }
+});
+
+var Explore = React.createClass({
+  getInitialState: function() {
+    return {
+      searchInput: '',
+      movieResults: [],
+      userResults: []
+    };
+  },
+  updateSearchInput: function(evt) {
+    this.setState({
+      searchInput: evt.target.value
+    });
+  },
+  search: function() {
+    var self = this;
+    $.ajax({
+      url: 'http://www.omdbapi.com/?apikey=55cab600&page=1&s=' + this.state.searchInput
+    }).then(function(data) {
+      var results = [];
+      var movies = data.Search;
+      var length = movies.length < 5 ? movies.length : 5;
+      for (var i = 0; i < length; i++) {
+        results.push({
+          text: movies[i].Title + ' (' + movies[i].Year + ')',
+          href: 'movie.html?id=' + movies[i].imdbID
+        });
+      }
+      self.setState({ movieResults: results });
+    });
+    $.ajax({
+      url: 'http://' + window.location.hostname + ':8080/api/user/select/' + this.state.searchInput
+    }).then(function(data) {
+      var results = [];
+      var length = data.length < 5 ? data.length : 5;
+      for (var i = 0; i < length; i++) {
+        results.push({
+          text: data[i],
+          href: 'profile.html?username=' + data[i]
+        });
+      }
+      self.setState({ userResults: results });
+    });
+  },
+  handleKeyPress: function(evt) {
+    if (evt.key === 'Enter') {
+      this.search();
+      $('.dropdown-toggle').dropdown('toggle');
+    }
+  },
+  render: function() {
+    return (
+      <div className="input-group">
+        <input type="text" className="form-control" placeholder="Search"
+            value={this.state.searchInput} onChange={this.updateSearchInput}
+            onKeyPress={this.handleKeyPress}/>
+        <div className="input-group-btn dropdown">
+          <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}><span className="glyphicon glyphicon-search"></span></button>
+          <ul className="dropdown-menu">
+            <li className="dropdown-item">Movies:</li>
+            {this.state.movieResults.map(function(result, index) {
+              return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
+            })}
+            <li className="dropdown-item">Users:</li>
+            {this.state.userResults.map(function(result, index) {
+              return <li className="dropdown-item" key={index}><a href={result.href}>{result.text}</a></li>;
+            })}
+          </ul>
+        </div>
       </div>
     )
   }
