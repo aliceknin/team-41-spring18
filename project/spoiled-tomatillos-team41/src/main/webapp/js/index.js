@@ -15,12 +15,12 @@ var RecCard = React.createClass({
       return <p>Loading...</p>;
     }
     return (
-      <div class="carousel-item col-md-2">
-        <div class="card">
-          <img class="card-img-top img-fluid" src={this.state.movieData.Poster} height="300"/>
-          <div class="card-body">
-            <h4 class="card-title"><a href={'movie.html?id=' + this.props.id}>{this.state.movieData.Title}</a></h4>
-            <p class="card-text">{this.props.text}</p>
+      <div className="carousel-item col-md-2">
+        <div className="card">
+          <img className="card-img-top img-fluid" src={this.state.movieData.Poster} height="300"/>
+          <div className="card-body">
+            <h4 className="card-title"><a href={'movie.html?id=' + this.props.id}>{this.state.movieData.Title}</a></h4>
+            <p className="card-text">{this.props.text}</p>
           </div>
         </div>
       </div>
@@ -46,20 +46,20 @@ var RecList = React.createClass({
   render: function() {
     var self = this;
     return (
-      <div id="recommendedCarousel" class="carousel slide" data-ride="carousel">
+      <div id="recommendedCarousel" className="carousel slide" data-ride="carousel">
         <h1>{this.props.title}</h1>
-        <div class="carousel-inner row w-100 mx-auto">
+        <div className="carousel-inner row w-100 mx-auto">
           {this.state.recs.map(function(rec) {
             return self.props.renderRec(rec);
           })}
         </div>
-        <a class="carousel-control-prev" href="#recommendedCarousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
+        <a className="carousel-control-prev" href="#recommendedCarousel" role="button" data-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#recommendedCarousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
+        <a className="carousel-control-next" href="#recommendedCarousel" role="button" data-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="sr-only">Next</span>
         </a>
       </div>
     )
@@ -101,7 +101,7 @@ var SystemAndUserRecLists = React.createClass({
     var userRecURL = "/api/recommendation/" + this.state.userID + "/select";
     var systemRecURL = "/api/system/recommendations/" + this.state.user
     return (
-      <div class="container-fluid">
+      <div className="container-fluid">
         <RecList url={systemRecURL} renderRec={this.renderSystemRec} title="We think you'll like..."/>
         <RecList url={userRecURL} renderRec={this.renderUserRec} title="Your friends think you'll like..."/>
       </div>
