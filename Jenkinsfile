@@ -5,6 +5,9 @@ pipeline {
       args '-v /root/.m2:/root/.m2'
     }
   }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '30'))
+  }
   stages {
     stage('Build') {
       steps {
