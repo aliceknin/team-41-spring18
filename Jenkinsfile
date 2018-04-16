@@ -6,7 +6,7 @@ pipeline {
     }
   }
   options {
-    buildDiscarder(logRotator(daysToKeepStr: '60', numToKeepStr: '10'))
+    buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '10'))
   }
   stages {
     stage('Build') {
