@@ -113,7 +113,7 @@ var SystemAndUserRecLists = React.createClass({
         <div className="container text-center">
           <Explore/>
           <h1>Like movies?</h1>
-          <h4>Join us to start receiving recommendations based on your taste! Make friends, read reviews, blah blah blah</h4>
+          <h4>Join us to start receiving recommendations based on your taste! Make friends, read and write reviews, and enjoy movies like you never have before.</h4>
           <a href="createUser.html" className="btn btn-primary btn-lg">SIGN UP</a>
           <h4>Already have an account?</h4>
           <a href="login.html" className="btn btn-default btn-lg">Log In</a>
