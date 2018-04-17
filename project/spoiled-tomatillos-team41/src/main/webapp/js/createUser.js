@@ -60,7 +60,7 @@ var CreateUser = React.createClass({
       <div className="container">
         <div className="row">
           <div className="col-sm-3">
-                    <img src="https://raw.github.ccs.neu.edu/CS4500/team-41-spring18/master/logos/Logo_1.png?token=AAAOXQgZM-l4VvhZDnELwbmzY1pgA60oks5a1OrFwA%3D%3D"
+                    <img src="https://github.ccs.neu.edu/CS4500/team-41-spring18/blob/master/logos/Logo_1.png?raw=true"
                           height="300" width="300"/>
           </div>
           <div className="col-sm-8">
