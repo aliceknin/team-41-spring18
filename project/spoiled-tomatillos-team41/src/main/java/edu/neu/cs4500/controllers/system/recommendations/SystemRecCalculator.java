@@ -55,7 +55,7 @@ public class SystemRecCalculator {
                     List<Double> movies1 = new ArrayList<>();
                     List<Double> movies2 = new ArrayList<>();
                     for (int k = 0; k < numUsers; k++){
-                        if (userMovieMatrix[k][i] != null & userMovieMatrix[k][j] != null) {
+                        if (userMovieMatrix[k][i] != null && userMovieMatrix[k][j] != null) {
                             movies1.add(userMovieMatrix[k][i]);
                             movies2.add(userMovieMatrix[k][j]);
                         }

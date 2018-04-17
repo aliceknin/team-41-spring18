@@ -7,6 +7,9 @@ var CreateUser = React.createClass({
       email: '',
     };
   },
+  componentDidMount: function () {
+     this.hideElement("fail");
+  },
   updateUsername: function(evt) {
     this.setState({
       username: evt.target.value
@@ -26,6 +29,14 @@ var CreateUser = React.createClass({
     this.setState({
       email: evt.target.value
     });
+  },
+  hideElement: function(elementID) {
+          var x = document.getElementById(elementID);
+          x.style.display="none";
+  },
+  showElement: function(elementID) {
+          var x = document.getElementById(elementID);
+          x.style.display="block";
   },
   createUser: function() {
     self = this;
@@ -84,6 +95,10 @@ var CreateUser = React.createClass({
                   <button className="btn btn-default" onClick={this.createUser}>Submit</button>
                 </div>
               </div>
+            </div>
+            <div className="alert alert-danger alert-dismissible" id="fail">
+                          <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                          <strong>A new user could not be created. </strong>Please try again.
             </div>
           </div>
         </div>

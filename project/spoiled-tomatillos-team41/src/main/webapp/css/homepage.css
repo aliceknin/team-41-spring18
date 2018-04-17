@@ -19,8 +19,8 @@
   opacity: 1;
 }
 
-.carousel {
-  height: 500px;
+#home-carousel {
+  height: 300px;
 }
 .carousel-inner {
   height: 100%;
@@ -38,4 +38,13 @@
   background: blanchedalmond;
   -webkit-background-size: cover;
   background-size: cover;
+}
+
+.main-title h1 {
+  font-size: 63px;
+}
+
+.explore {
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
