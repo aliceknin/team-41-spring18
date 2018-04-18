@@ -15,6 +15,6 @@ Link to the Jenkins instance: [Jenkins](http://ec2-18-219-122-38.us-east-2.compu
 ## Youtube Video Links
 Link to the System Demo: [System Demo](https://youtu.be/utZ8LtQ4ZQc)
 
-Link to the System Setup:
+Link to the System Setup: [System Setup](https://youtu.be/0jUxspJNWM8)
 
 Link to the Final Presentation: [Final Presentation](https://youtu.be/gZiUV-FQy3g)
