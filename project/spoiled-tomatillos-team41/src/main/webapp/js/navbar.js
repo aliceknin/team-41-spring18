@@ -63,7 +63,7 @@ var NavBar = React.createClass({
               <span className="icon-bar" />
             </button>
             <a className="navbar-brand" href="index.html"><p>
-              <img src="https://raw.github.ccs.neu.edu/CS4500/team-41-spring18/master/logos/Logo_2.png?token=AAAOXVJD8_3cQ58_7vb3JNROSDjaUPlqks5a1f30wA%3D%3D"
+              <img src="../images/Logo_2.png"
                     width="40" height="40" /></p>
             </a>
           </div>
