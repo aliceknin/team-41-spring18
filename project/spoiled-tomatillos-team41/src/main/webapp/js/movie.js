@@ -150,7 +150,8 @@ var Rec = React.createClass({
             userResults: [],
             user: localStorage.getItem('user'),
             fromUserID: '',
-            toUserID: ''
+            toUserID: '',
+            focused: false
           };
     },
     componentDidMount: function () {
@@ -171,10 +172,16 @@ var Rec = React.createClass({
         });
     },
     handleKeyPress: function(evt) {
-        if (evt.key === 'Enter') {
+        if (evt.key === 'Enter' && this.state.focused) {
           this.searchAndRec();
-          $('.dropdown-toggle').dropdown('toggle');
+          $('.dropdown-rec-toggle').dropdown('toggle');
         }
+    },
+    onBlur: function() {
+      this.setState({ focused: false })
+    },
+    onFocus: function() {
+      this.setState({ focused: true })
     },
     hideElement: function(elementID) {
         var x = document.getElementById(elementID);
@@ -224,9 +231,10 @@ var Rec = React.createClass({
           <div className="form-group">
             <input type="text" className="form-control" placeholder="Search for a user"
               value={this.state.searchInput} onChange={this.updateSearchInput}
+              onFocus={this.onFocus} onBlur={this.onBlur}
               onKeyPress={this.handleKeyPress} />
           </div>
-          <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.searchAndRec}>Search</button>
+          <button className="btn btn-default dropdown-rec-toggle" data-toggle="dropdown" id="search" onClick={this.searchAndRec}>Search for a user...</button>
           <ul className="dropdown-menu">
             <li className="dropdown-item">Users:</li>
               {this.state.userResults.map(function(result, index) {

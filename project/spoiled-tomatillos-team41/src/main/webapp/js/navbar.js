@@ -4,7 +4,8 @@ var NavBar = React.createClass({
       searchInput: '',
       movieResults: [],
       userResults: [],
-      user: localStorage.getItem('user')
+      user: localStorage.getItem('user'),
+      focused: false
     };
   },
   updateSearchInput: function(evt) {
@@ -43,10 +44,16 @@ var NavBar = React.createClass({
     });
   },
   handleKeyPress: function(evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === 'Enter' && this.state.focused) {
       this.search();
       $('.dropdown-toggle').dropdown('toggle');
     }
+  },
+  onBlur: function() {
+    this.setState({ focused: false })
+  },
+  onFocus: function() {
+    this.setState({ focused: true })
   },
   logout: function() {
     this.setState({user: null});
@@ -73,9 +80,10 @@ var NavBar = React.createClass({
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Search"
                       value={this.state.searchInput} onChange={this.updateSearchInput}
+                      onFocus={this.onFocus} onBlur={this.onBlur}
                       onKeyPress={this.handleKeyPress} />
                 </div>
-                <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}><span className="glyphicon glyphicon-search" />Search</button>
+                <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" id="search" onClick={this.search}><span className="glyphicon glyphicon-search" /></button>
                 <ul className="dropdown-menu">
                   <li className="dropdown-item">Movies:</li>
                   {this.state.movieResults.map(function(result, index) {
